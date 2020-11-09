@@ -76,6 +76,7 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Scripts\Entities Components\Health.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameServer.cs" />
     <Compile Include="Assets\Scripts\Managers\NetManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerScript.cs" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
