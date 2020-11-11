@@ -234,7 +234,7 @@ RectTransform:
   - {fileID: 1745913357}
   - {fileID: 741997805}
   m_Father: {fileID: 764385764}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -746,6 +746,10 @@ MonoBehaviour:
   _mainScreen: {fileID: 372125625}
   _loginScreen: {fileID: 877112738}
   _registerScreen: {fileID: 764385763}
+  _usernameFieldLoginScreen: {fileID: 1037117548}
+  _passwordFieldLoginScreen: {fileID: 1478703482}
+  _usernameFieldRegisterScreen: {fileID: 21158362}
+  _passwordFieldRegisterScreen: {fileID: 1762552584}
 --- !u!224 &534695094
 RectTransform:
   m_ObjectHideFlags: 0
@@ -778,7 +782,7 @@ GameObject:
   - component: {fileID: 539194970}
   - component: {fileID: 539194969}
   m_Layer: 5
-  m_Name: LoginButton
+  m_Name: RegisterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -797,7 +801,7 @@ RectTransform:
   m_Children:
   - {fileID: 3751070}
   m_Father: {fileID: 764385764}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -846,7 +850,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 539194970}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 534695093}
+        m_MethodName: CreateUser
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &539194970
@@ -1435,11 +1450,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 21158361}
   - {fileID: 1762552583}
+  - {fileID: 539194968}
   - {fileID: 1805519813}
   - {fileID: 1747904936}
-  - {fileID: 21158361}
-  - {fileID: 539194968}
   m_Father: {fileID: 1729240605}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2515,7 +2530,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1736265003}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 534695093}
+        m_MethodName: LogIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1736265003
@@ -2665,7 +2691,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 764385764}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2880,7 +2906,7 @@ RectTransform:
   - {fileID: 1526189779}
   - {fileID: 546747892}
   m_Father: {fileID: 764385764}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3024,7 +3050,7 @@ RectTransform:
   m_Children:
   - {fileID: 1634402406}
   m_Father: {fileID: 764385764}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
