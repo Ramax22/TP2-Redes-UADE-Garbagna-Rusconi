@@ -77,6 +77,7 @@
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Scripts\Entities Components\Health.cs" />
     <Compile Include="Assets\Scripts\Managers\GameServer.cs" />
+    <Compile Include="Assets\Scripts\Managers\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Managers\NetManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerScript.cs" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
@@ -86,31 +87,31 @@
     <None Include="Assets\Photon\PhotonUnityNetworking\readme.txt" />
     <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -290,10 +291,10 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

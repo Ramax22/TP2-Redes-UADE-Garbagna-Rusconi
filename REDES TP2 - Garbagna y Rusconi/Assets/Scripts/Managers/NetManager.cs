@@ -26,6 +26,7 @@ public class NetManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.NickName = pName;
 
         //Creo la room
+        //PhotonNetwork.JoinOrCreateRoom("LoginScene", rO, TypedLobby.Default); //Estoy testeando el tema del login, cuando trabajes vos, comenta esto
         PhotonNetwork.JoinOrCreateRoom("GameRoom", rO, TypedLobby.Default);
     }
 
@@ -37,6 +38,7 @@ public class NetManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         //Cargo la scene del juego, a esto hay que agregarle cosas de la clase 5
+        //PhotonNetwork.LoadLevel("LoginScene");
         PhotonNetwork.LoadLevel("GameScene");
     }
 }
