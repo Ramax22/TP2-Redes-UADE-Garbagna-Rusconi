@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.Demo.Cockpit;
+using UnityEngine.SceneManagement;
 
 public class GameServer : MonoBehaviourPun
 {
@@ -13,6 +14,14 @@ public class GameServer : MonoBehaviourPun
     [SerializeField] int playerCount;
 
     Dictionary<Player, PlayerScript> _dic = new Dictionary<Player, PlayerScript>();
+    Dictionary<PlayerScript, Player> _dicInverse = new Dictionary<PlayerScript, Player>();
+
+    bool gameStart = false;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     void Start()
     {
@@ -38,23 +47,43 @@ public class GameServer : MonoBehaviourPun
         Player currentClient = PhotonNetwork.LocalPlayer;
         if(_server != currentClient)
         {
-            photonView.RPC("PlayerConnected", _server);
-            //SpawnPlayer(currentClient);
+            photonView.RPC("PlayerConnected", _server, currentClient);
         }
     }
 
     [PunRPC]
     void SpawnPlayer(Player client)
     {
-        GameObject obj = PhotonNetwork.Instantiate(prefabAdress, Vector3.zero, Quaternion.identity);
-        PlayerScript playerS = obj.GetComponent<PlayerScript>();
-        if(playerS)
-            _dic[client] = playerS;
+        if(client!=_server)
+        { 
+            GameObject obj = PhotonNetwork.Instantiate(prefabAdress, Vector3.zero, Quaternion.identity);
+            PlayerScript playerS = obj.GetComponent<PlayerScript>();
+            if(playerS)
+            { 
+                _dic[client] = playerS;
+                _dicInverse[playerS] = client;
+            }
+        }
     }
 
     [PunRPC]
-    void PlayerConnected()
+    void PlayerConnected(Player p)
     {
-        playerCount++;
+        if(PhotonNetwork.CurrentRoom.PlayerCount - 1 >= 4 && gameStart==false)
+        {
+            gameStart = true;
+            photonView.RPC("EnterGameScene", RpcTarget.AllBuffered);
+        }
+        
+            
+    }
+
+    [PunRPC]
+    void EnterGameScene()
+    {
+        if (SceneManager.GetActiveScene().name != "GameScene")
+        {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 }
