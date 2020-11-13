@@ -41,6 +41,6 @@ public class NetManager : MonoBehaviourPunCallbacks
     {
         //Cargo la scene del juego, a esto hay que agregarle cosas de la clase 5
         //PhotonNetwork.LoadLevel("LoginScene");
-        PhotonNetwork.LoadLevel("LoginScene");
+        PhotonNetwork.LoadLevel("LobbyScene");
     }
 }
