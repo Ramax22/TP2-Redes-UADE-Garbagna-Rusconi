@@ -11,17 +11,22 @@ using UnityEngine.UI;
  */
 
 public class MainMenuManager : MonoBehaviour
-{ //Maximo largo de user y contraseña: 15 caracteres
+{
+    //Maximo largo de user y contraseña: 15 caracteres
+
     //Las "pantallas" del menu
+    [Header("Menu screens")]
     [SerializeField] GameObject _mainScreen;
     [SerializeField] GameObject _loginScreen;
     [SerializeField] GameObject _registerScreen;
 
     //Objetos de la pantalla Login
+    [Header("Login Screen Objects")]
     [SerializeField] InputField _usernameFieldLoginScreen;
     [SerializeField] InputField _passwordFieldLoginScreen;
 
     //Objetos de la pantalla Register
+    [Header("Register Screen Objects")]
     [SerializeField] InputField _usernameFieldRegisterScreen;
     [SerializeField] InputField _passwordFieldRegisterScreen;
 
@@ -85,7 +90,7 @@ public class MainMenuManager : MonoBehaviour
     }
     #endregion
 
-    #region ~~~ FUNCIONES DEL PANEL LOGIN ~~~
+    #region ~~~ FUNCIONES DEL PANEL REGISTER ~~~
     //Funcion para crear un usuario
     IEnumerator CreateUserRequest(string username, string password, string url)
     {
@@ -103,8 +108,11 @@ public class MainMenuManager : MonoBehaviour
         //Reviso que no haya errores
         ConnectionErrorHandling(request);
 
-        //Muestro en consola lo que devuelve la consulta
-        Debug.Log(request.downloadHandler.text);
+        //Agarro el response, y voy al éxito o al error
+        var res = request.downloadHandler.text;
+        print(res);
+        if (res.Contains("Success")) OnRegisterSuccess();
+        else OnRegisterFail(res);
     }
 
     //Funcion que crea al usuario en la db
@@ -114,12 +122,23 @@ public class MainMenuManager : MonoBehaviour
 
         //Ejecuto la corutina 
         StartCoroutine(CreateUserRequest(_usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text, _urlCreateUser));
+    }
 
-        //TODO: QUE SE LOGUE SOLO
+    //Funcion que se llama si el registro resulta ok
+    void OnRegisterSuccess()
+    {
+        //Se loguea
+        StartCoroutine(LogInRequest(_usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text, _urlFindUser));
+    }
+
+    //Funcion que se llama si el registro resulta nook
+    void OnRegisterFail(string res)
+    {
+        print("fail");
     }
     #endregion
 
-    #region ~~~ FUNCIONES DEL PANEL REGISTER ~~~
+    #region ~~~ FUNCIONES DEL PANEL LOGIN ~~~
     //Funcion para mandar el request al login y trabajar con el response
     IEnumerator LogInRequest(string username, string password, string url)
     {
@@ -137,7 +156,10 @@ public class MainMenuManager : MonoBehaviour
         //Reviso si no hay errores de conexion
         ConnectionErrorHandling(request);
 
-        Debug.Log(request.downloadHandler.text);
+        //Agarro el response, y voy al éxito o al error
+        var res = request.downloadHandler.text;
+        if (res == "Server/Success") OnLoginSuccess();
+        else OnLoginFail(res);
     }
 
     //Funcion para loguearse
@@ -146,6 +168,18 @@ public class MainMenuManager : MonoBehaviour
         //TODO: FRONTEND CHECK
 
         StartCoroutine(LogInRequest(_usernameFieldLoginScreen.text, _passwordFieldLoginScreen.text, _urlFindUser));
+    }
+
+    //Funcion que es ejecutada en cada vez que el logueo es exitoso
+    void OnLoginSuccess()
+    {
+        print("Éxito");
+    }
+
+    //Funcion que es ejecutada en cada vez que el logueo es erroneo
+    void OnLoginFail(string response)
+    {
+        print("Fracaso");
     }
     #endregion
 }
