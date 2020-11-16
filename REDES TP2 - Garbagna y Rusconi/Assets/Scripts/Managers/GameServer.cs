@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.Demo.Cockpit;
 using UnityEngine.SceneManagement;
 
 public class GameServer : MonoBehaviourPun
@@ -11,7 +10,7 @@ public class GameServer : MonoBehaviourPun
     public static GameServer Instance;
     public string prefabAdress = "Prefabs/PlayerPrefabs/PlayerPrefab"; 
     [SerializeField] Player _server;
-    [SerializeField] int playerCount;
+    [SerializeField] int playersNeeded;
 
     Dictionary<Player, PlayerScript> _dic = new Dictionary<Player, PlayerScript>();
     Dictionary<PlayerScript, Player> _dicInverse = new Dictionary<PlayerScript, Player>();
@@ -30,6 +29,8 @@ public class GameServer : MonoBehaviourPun
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+        if (playersNeeded == 0)
+            playersNeeded = 4;
     }
 
     void Start()
@@ -39,7 +40,11 @@ public class GameServer : MonoBehaviourPun
             Instance = this;
             if(PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("SetServer", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
+                Player currentClient = PhotonNetwork.LocalPlayer;
+                //_server = currentClient;
+                //Debug.Log(_server);
+                photonView.RPC("SetServer", RpcTarget.AllBuffered, currentClient);
+                
             }
         }
     }
@@ -60,6 +65,7 @@ public class GameServer : MonoBehaviourPun
     [PunRPC]
     void PlayerConnected(Player p)
     {
+        Debug.Log("User " + p + " connected");
         if(listTeamOne.Count<= listTeamTwo.Count)
         { 
             _dicTeam.Add(p, 1);
@@ -73,8 +79,10 @@ public class GameServer : MonoBehaviourPun
 
         photonView.RPC("SetTeam", p,_dicTeam[p]);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= 4 && gameStart==false)
+        if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart==false)
         {
+            //gameStart = true;
+            //PhotonNetwork.LoadLevel("GameScene");
             photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
         }
     }
@@ -129,6 +137,7 @@ public class GameServer : MonoBehaviourPun
 
 
             GameObject obj = PhotonNetwork.Instantiate(prefabAdress, spawnPos.transform.position, spawnPos.transform.rotation);
+            obj.GetPhotonView().TransferOwnership(client);
             PlayerScript playerS = obj.GetComponent<PlayerScript>();
             if (playerS)
             {

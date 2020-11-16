@@ -14,11 +14,20 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] bool isDead;
     [SerializeField] float initialhealth;
     //[SerializeField] Text hpText;
+    [SerializeField] GameObject aimingPoint;
+    [SerializeField] float horizontalRotation = 0;
+    [SerializeField] float verticalRotation = 0;
+    [SerializeField] float verticalRotationLimit = 80f;
     Health hp;
+    
+    [SerializeField] GameObject equippedGun;
+    [SerializeField] GunManager gunScript;
+    [SerializeField] List<GameObject> gunList;
+    [SerializeField] int ammoCount;
     //GameManager _gameManager;
 
     //[SerializeField] CameraBehaviour cB;
-    private void Awake()
+    private void Start()
     {
 
         cc = GetComponent<CharacterController>();
@@ -32,6 +41,7 @@ public class PlayerScript : MonoBehaviourPun
         hp = new Health(initialhealth, Die);
         if (photonView.IsMine)
         {
+            aimingPoint.SetActive(true);
             //cB = Camera.main.gameObject.GetComponentInParent<CameraBehaviour>();
             //cB.GetPlayer(this.gameObject);
         }
@@ -41,22 +51,26 @@ public class PlayerScript : MonoBehaviourPun
 
     void Update()
     {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || PhotonNetwork.IsMasterClient) return;
 
         if (!isDead)
         {
-            var h = Input.GetAxis("Horizontal");
-            var v = Input.GetAxis("Vertical");
-
-            movement = new Vector3(h, 0, v) * Time.deltaTime * speed;
+            var h = Input.GetAxis("Horizontal") * transform.right;
+            var v = Input.GetAxis("Vertical") * transform.forward;
+            movement = (h + v) * Time.deltaTime * speed;
             cc.Move(movement);
             if (!cc.isGrounded)
             {
                 cc.Move(new Vector3(0, -9.8f, 0) * Time.deltaTime);
             }
+            verticalRotation -= Input.GetAxisRaw("Mouse Y");
+            horizontalRotation = Input.GetAxisRaw("Mouse X");
+            verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
+            aimingPoint.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+            gameObject.transform.Rotate(new Vector3(0, horizontalRotation, 0));
         }
 
-        if (Input.GetKeyDown(KeyCode.O)) photonView.RPC("RespawnRPC", RpcTarget.All);
+        
     }
 
     [PunRPC]
@@ -80,6 +94,23 @@ public class PlayerScript : MonoBehaviourPun
         }*/
 
         //if (PhotonNetwork.IsMasterClient) _gameManager.CheckEndgame();
+    }
+
+    public void GetGun(GameObject gunObj)
+    {
+        gunObj.transform.SetParent(aimingPoint.transform);
+        Instantiate(gunObj);
+        gunList.Add(gunObj);
+        gunScript = gunObj.GetComponent<GunManager>();
+    }
+
+    public void EquipGun(GameObject gun)
+    {
+        if (equippedGun != null)
+        {
+            equippedGun.SetActive(false);
+            equippedGun = null;
+        }
     }
 
     public bool IsDead

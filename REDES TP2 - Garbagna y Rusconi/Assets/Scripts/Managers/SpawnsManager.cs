@@ -11,6 +11,12 @@ public class SpawnsManager : MonoBehaviour
     [SerializeField] int counterOne = 0;
     [SerializeField] int counterTwo = 0;
 
+    private void Awake()
+    {
+        if(Instance==null)
+        Instance = this;
+    }
+
     public List<GameObject> TeamOneSpawns { get => teamOneSpawns; set => teamOneSpawns = value; }
     public List<GameObject> TeamTwoSpawns { get => teamTwoSpawns; set => teamTwoSpawns = value; }
     public int CounterOne { get => counterOne; set => counterOne = value; }

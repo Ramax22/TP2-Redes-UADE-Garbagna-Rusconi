@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
                 Destroy(this);
             }
 
-            Invoke("SetUp", 3);
+            Invoke("SetUp", 5);
         }
     }
 

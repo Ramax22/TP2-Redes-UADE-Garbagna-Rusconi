@@ -27,9 +27,11 @@ public class NetManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.NickName = pName;
         */
 
+        PhotonNetwork.LocalPlayer.NickName = "usuario" + Random.Range(0, 100).ToString();
+
         //Creo la room
         //PhotonNetwork.JoinOrCreateRoom("LoginScene", rO, TypedLobby.Default); //Estoy testeando el tema del login, cuando trabajes vos, comenta esto
-        PhotonNetwork.JoinOrCreateRoom("GameRoom", rO, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom("GameRoom", new RoomOptions{MaxPlayers= 12}, TypedLobby.Default);
     }
 
     public override void OnCreatedRoom()

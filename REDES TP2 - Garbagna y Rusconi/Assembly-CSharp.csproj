@@ -76,6 +76,9 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Scripts\Entities Components\Health.cs" />
+    <Compile Include="Assets\Scripts\Guns\GunInterface.cs" />
+    <Compile Include="Assets\Scripts\Guns\GunManager.cs" />
+    <Compile Include="Assets\Scripts\Guns\GunObject.cs" />
     <Compile Include="Assets\Scripts\Managers\GameServer.cs" />
     <Compile Include="Assets\Scripts\Managers\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MainMenuManager.cs" />
