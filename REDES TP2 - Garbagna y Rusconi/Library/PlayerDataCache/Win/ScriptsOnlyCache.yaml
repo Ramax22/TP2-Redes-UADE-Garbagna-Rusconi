@@ -18,8 +18,6 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
     PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PhotonTransformViewClassicEditor
-    - Photon.Pun.PhotonViewInspector
     - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
@@ -37,7 +35,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
-    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -79,7 +76,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10014}
     - Class: 114
-      Script: {instanceID: 10734}
+      Script: {instanceID: 10736}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -114,13 +111,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9930}
     - Class: 114
-      Script: {instanceID: 10370}
+      Script: {instanceID: 10372}
     - Class: 114
-      Script: {instanceID: 11344}
+      Script: {instanceID: 11350}
     - Class: 114
-      Script: {instanceID: 11690}
+      Script: {instanceID: 11696}
     - Class: 114
-      Script: {instanceID: 11768}
+      Script: {instanceID: 11774}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -187,47 +184,47 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10102}
     - Class: 114
-      Script: {instanceID: 10292}
+      Script: {instanceID: 10294}
     - Class: 114
-      Script: {instanceID: 10370}
+      Script: {instanceID: 10372}
     - Class: 114
-      Script: {instanceID: 10434}
+      Script: {instanceID: 10436}
     - Class: 114
-      Script: {instanceID: 10616}
+      Script: {instanceID: 10618}
     - Class: 114
-      Script: {instanceID: 10678}
+      Script: {instanceID: 10680}
     - Class: 114
-      Script: {instanceID: 10802}
+      Script: {instanceID: 10804}
     - Class: 114
-      Script: {instanceID: 10854}
+      Script: {instanceID: 10856}
     - Class: 114
-      Script: {instanceID: 10926}
+      Script: {instanceID: 10928}
     - Class: 114
-      Script: {instanceID: 11004}
+      Script: {instanceID: 11006}
     - Class: 114
-      Script: {instanceID: 11012}
+      Script: {instanceID: 11014}
     - Class: 114
-      Script: {instanceID: 11210}
+      Script: {instanceID: 11214}
     - Class: 114
-      Script: {instanceID: 11218}
+      Script: {instanceID: 11222}
     - Class: 114
-      Script: {instanceID: 11224}
+      Script: {instanceID: 11228}
     - Class: 114
-      Script: {instanceID: 11344}
+      Script: {instanceID: 11350}
     - Class: 114
-      Script: {instanceID: 11440}
+      Script: {instanceID: 11446}
     - Class: 114
-      Script: {instanceID: 11690}
+      Script: {instanceID: 11696}
     - Class: 114
-      Script: {instanceID: 11768}
+      Script: {instanceID: 11774}
     - Class: 114
-      Script: {instanceID: 11800}
+      Script: {instanceID: 11806}
     - Class: 114
-      Script: {instanceID: 11808}
-    - Class: 114
-      Script: {instanceID: 11830}
+      Script: {instanceID: 11814}
     - Class: 114
       Script: {instanceID: 11836}
+    - Class: 114
+      Script: {instanceID: 11842}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -625,6 +622,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMeshUI
+  - hash:
+      serializedVersion: 2
+      Hash: e51d943ee188ca0fdb273469a306e514
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GunObject
   - hash:
       serializedVersion: 2
       Hash: 9c80efe996101ed2f2acdc43e1a95b5b
@@ -1119,6 +1122,12 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: 0fc27f45ae8c27fdbd7ebf8eacb5398d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GunManager
+  - hash:
+      serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -1581,7 +1590,7 @@ ScriptsOnlyBuild:
     className: CountOfRoomsProperty
   - hash:
       serializedVersion: 2
-      Hash: 51aac31cbc8191676ada85ec272de134
+      Hash: 539112456d9d71fc05b77d759b935bdc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerScript
@@ -1602,5 +1611,5 @@ ScriptsOnlyBuild:
   - Assets/Scenes/SampleScene.unity
   - Assets/Scenes/LobbyScene.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
+  playerPath: C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
     TP2 - Garbagna y Rusconi.exe

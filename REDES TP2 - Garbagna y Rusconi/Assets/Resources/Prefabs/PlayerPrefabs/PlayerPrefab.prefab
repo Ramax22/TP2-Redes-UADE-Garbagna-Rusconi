@@ -308,3 +308,8 @@ MonoBehaviour:
   horizontalRotation: 0
   verticalRotation: 0
   verticalRotationLimit: 80
+  equippedGun: {fileID: 0}
+  gunScript: {fileID: 0}
+  gunList: []
+  ammoCount: 0
+  _audioListener: {fileID: 3850743540135998067}

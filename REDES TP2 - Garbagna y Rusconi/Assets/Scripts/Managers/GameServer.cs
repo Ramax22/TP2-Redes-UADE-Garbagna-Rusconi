@@ -94,8 +94,6 @@ public class GameServer : MonoBehaviourPun
         PhotonNetwork.LoadLevel("GameScene");
     }
 
-
-
     [PunRPC]
     void SetTeam(int team)
     {
@@ -118,8 +116,10 @@ public class GameServer : MonoBehaviourPun
         if (client != _server)
         {
             GameObject spawnPos;
-            if(DicTeam[client]==1)
+            //Aca, dependiendo del equipo, lo instancia en un lado u otro
+            if(_dicTeam[client]==1)
             {
+                //Aca se resetea el ponter el vector3 donde se instancia a los jugadores
                 if (SpawnsManager.Instance.CounterOne >= SpawnsManager.Instance.TeamOneSpawns.Count)
                     SpawnsManager.Instance.CounterOne = 0;
 
@@ -128,6 +128,7 @@ public class GameServer : MonoBehaviourPun
             }
             else
             {
+                //Aca se resetea el ponter el vector3 donde se instancia a los jugadores
                 if (SpawnsManager.Instance.CounterTwo >= SpawnsManager.Instance.TeamTwoSpawns.Count)
                     SpawnsManager.Instance.CounterTwo = 0;
 
@@ -141,8 +142,8 @@ public class GameServer : MonoBehaviourPun
             PlayerScript playerS = obj.GetComponent<PlayerScript>();
             if (playerS)
             {
-                _dic[client] = playerS;
-                _dicInverse[playerS] = client;
+                _dic[client] = playerS; //aca guarda al cliente y su script player de su gameobject
+                _dicInverse[playerS] = client; //aca lo mismo pero al revez
             }
         }
     }

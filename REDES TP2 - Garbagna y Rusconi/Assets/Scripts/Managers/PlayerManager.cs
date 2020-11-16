@@ -12,9 +12,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        if(PhotonNetwork.LocalPlayer!=GameServer.Instance.Server)
+        if(PhotonNetwork.LocalPlayer != GameServer.Instance.Server)
         { 
-            if(Instance==null)
+            if(Instance == null)
             {
                 Instance = this;
             }
@@ -30,7 +30,19 @@ public class PlayerManager : MonoBehaviour
     void SetUp()
     {
         team = GameServer.Instance.PlayerTeam;
+        //GameServer.Instance.SpawnRequest(PhotonNetwork.LocalPlayer);
+        //Esto antes estaba aca, pero lo puse en una funcion separada para poder hacer que el player respawnee
+        RequestToServerSpawn();
+    }
+
+    void RequestToServerSpawn()
+    {
         GameServer.Instance.SpawnRequest(PhotonNetwork.LocalPlayer);
     }
 
+    private void Update()
+    {
+        //TESTING
+        //if (Input.GetKeyDown(KeyCode.A)) RequestToServerSpawn();
+    }
 }

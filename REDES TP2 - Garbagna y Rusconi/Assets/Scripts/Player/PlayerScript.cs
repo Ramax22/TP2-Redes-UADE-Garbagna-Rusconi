@@ -19,17 +19,16 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] float verticalRotation = 0;
     [SerializeField] float verticalRotationLimit = 80f;
     Health hp;
-    
     [SerializeField] GameObject equippedGun;
     [SerializeField] GunManager gunScript;
     [SerializeField] List<GameObject> gunList;
     [SerializeField] int ammoCount;
+    [SerializeField] AudioListener _audioListener;
     //GameManager _gameManager;
 
     //[SerializeField] CameraBehaviour cB;
     private void Start()
     {
-
         cc = GetComponent<CharacterController>();
 
         if (PhotonNetwork.IsMasterClient)
@@ -44,6 +43,10 @@ public class PlayerScript : MonoBehaviourPun
             aimingPoint.SetActive(true);
             //cB = Camera.main.gameObject.GetComponentInParent<CameraBehaviour>();
             //cB.GetPlayer(this.gameObject);
+        }
+        else
+        {
+            if (_audioListener != null) _audioListener.enabled = false; //Hago esto para desactivar los listeners de otros players
         }
 
         isDead = false;
@@ -70,9 +73,10 @@ public class PlayerScript : MonoBehaviourPun
             gameObject.transform.Rotate(new Vector3(0, horizontalRotation, 0));
         }
 
-        
+        //if (Input.GetKeyDown(KeyCode.Space)) Die(); //TESTING
     }
 
+    #region ~~~ HP FUNCTIONS ~~~
     [PunRPC]
     public void ChangeLife(float value)
     {
@@ -84,6 +88,8 @@ public class PlayerScript : MonoBehaviourPun
     void Die() //Vamos a tener que encontrar una manera de hacer bien la muerte
     {
         isDead = true;
+        //Esto lo tiene que hacer el server de alguna manera
+        PhotonNetwork.Destroy(gameObject);
         print("Muerto");
         /*if (photonView.IsMine)
         {
@@ -96,6 +102,17 @@ public class PlayerScript : MonoBehaviourPun
         //if (PhotonNetwork.IsMasterClient) _gameManager.CheckEndgame();
     }
 
+    public void GetDamaged(float value, Player client)
+    {
+        photonView.RPC("ChangeLife", client, value); //aca se lo manda al cliente
+        if (GameServer.Instance.Server == PhotonNetwork.LocalPlayer) ChangeLife(value); //esto solo lo ejecuta el server, pero solamente para tener controlada la
+        //Vida del jugador al que esta lastimando (tipo, lo pienso por si hay cheats).
+
+        //photonView.RPC("ChangeLife", RpcTarget.All, value);
+    }
+    #endregion
+
+    #region ~~~ WEAPONS FUNCTIONS ~~~
     public void GetGun(GameObject gunObj)
     {
         gunObj.transform.SetParent(aimingPoint.transform);
@@ -113,36 +130,35 @@ public class PlayerScript : MonoBehaviourPun
         }
     }
 
-    public bool IsDead
-    {
-        get { return isDead; }
-    }
+    //Send shoot to player (desp comento que es, es para no olvidarme que ahora rindo)
+    #endregion
 
-    public void getHpText(Text t)
-    {
-        if (photonView.IsMine)
-        {
-            //hpText = t;
-        }
-    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONES SIN REFERENCIAS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //public bool IsDead
+    //{
+    //    get { return isDead; }
+    //}
 
-    public void GetDamaged(float value)
-    {
-        photonView.RPC("ChangeLife", RpcTarget.All, value);
-    }
+    //public void getHpText(Text t)
+    //{
+    //    if (photonView.IsMine)
+    //    {
+    //        //hpText = t;
+    //    }
+    //}
 
-    public void MaxHp()
-    {
-        photonView.RPC("MaxHpRPC", RpcTarget.All);
-    }
+    //public void MaxHp()
+    //{
+    //    photonView.RPC("MaxHpRPC", RpcTarget.All);
+    //}
 
-    [PunRPC]
-    public void MaxHpRPC()
-    {
-        hp.MaxLife();
-        if (photonView.IsMine)
-        {
-            //hpText.text = ("HP: " + hp.HP);
-        }
-    }
+    //[PunRPC]
+    //public void MaxHpRPC()
+    //{
+    //    hp.MaxLife();
+    //    if (photonView.IsMine)
+    //    {
+    //        //hpText.text = ("HP: " + hp.HP);
+    //    }
+    //}
 }
