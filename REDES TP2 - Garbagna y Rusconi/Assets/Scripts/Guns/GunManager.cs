@@ -6,6 +6,7 @@ public class GunManager : MonoBehaviour
 {
     [SerializeField] iGun thisGun;
     [SerializeField] GunObject gunData;
+    [SerializeField] Animator gunAnimator;
 
     internal iGun ThisGun { get => thisGun; set => thisGun = value; }
 
@@ -17,11 +18,13 @@ public class GunManager : MonoBehaviour
                 thisGun = new Pistol(gunData.MagazineSize, gunData.Damage, gunData.AmmoType, gunData.FireRate);
                 break;
         }
+
+        gunAnimator = gameObject.GetComponent<Animator>();
     }
 
     public List<RaycastHit> Shoot()
     {
-        return thisGun.Shoot();
+        return thisGun.Shoot(gunAnimator);
     }
 
     public bool CheckAmmo()
@@ -29,8 +32,23 @@ public class GunManager : MonoBehaviour
         return thisGun.HasAmmo();
     }
     
-    public void Reload()
+    public void Reload(int ammo)
     {
-        //thisGun.Reload();
+        thisGun.Reload(ammo, gunAnimator);
+    }
+
+    public bool CanShoot()
+    {
+        return thisGun.CanShoot(gunAnimator);
+    }
+
+    public int AmmoNeeded()
+    {
+        return thisGun.AmmoNeeded();
+    }
+
+    public bool CanReload()
+    {
+        return thisGun.CanReload(gunAnimator);
     }
 }

@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] List<GameObject> gunList;
     [SerializeField] int ammoCount;
     [SerializeField] AudioListener _audioListener;
+    [SerializeField] GameObject gunPoint;
     //GameManager _gameManager;
 
     //[SerializeField] CameraBehaviour cB;
@@ -115,10 +116,9 @@ public class PlayerScript : MonoBehaviourPun
     #region ~~~ WEAPONS FUNCTIONS ~~~
     public void GetGun(GameObject gunObj)
     {
-        gunObj.transform.SetParent(aimingPoint.transform);
+        gunObj.transform.SetParent(gunPoint.transform);
         Instantiate(gunObj);
         gunList.Add(gunObj);
-        gunScript = gunObj.GetComponent<GunManager>();
     }
 
     public void EquipGun(GameObject gun)
@@ -126,11 +126,37 @@ public class PlayerScript : MonoBehaviourPun
         if (equippedGun != null)
         {
             equippedGun.SetActive(false);
-            equippedGun = null;
+            equippedGun = gun;
+            gun.SetActive(true);
+            gunScript = gun.GetComponent<GunManager>();
+        }
+    }
+
+    public void Reload()
+    {
+        if(equippedGun!=null)
+        {
+            if(gunScript.CanReload()==true && ammoCount>0)
+            { 
+                int ammoNeeded = gunScript.AmmoNeeded();
+                if(ammoNeeded<=ammoCount) //HAY QUE AGREGAR UN CHECKEO DE AMMOTYPE SI HACEMOS OTRA ARMA
+                {
+                    ammoCount -= ammoNeeded;
+                    gunScript.Reload(ammoNeeded);
+                }
+                else
+                {
+                    gunScript.Reload(ammoCount);
+                    ammoCount = 0;
+                }
+                //AGREGAR QUE DESPUES DE RECARGAR CHECKEE CUANTA AMMO HAY EN EL ARMA PARA ACTUALIZAR EL HUD
+            }
         }
     }
 
     //Send shoot to player (desp comento que es, es para no olvidarme que ahora rindo)
+
+    //CHE PADRELANDIA, cuando haga el disparo, haga que revise que el CanShoot del gunmanager revise true, sino no dispare. Tengo armada parte de la logica del behaviour para el disparo (menos el raycast) en GunInterface, revise ahi
     #endregion
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONES SIN REFERENCIAS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
