@@ -102,8 +102,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8878693734063976911}
   - component: {fileID: 1566539264551427253}
+  - component: {fileID: -7577924828505795834}
   m_Layer: 0
-  m_Name: HK UCP 1
+  m_Name: HK UCP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,6 +145,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-7577924828505795834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578883722717447132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 437e265a8edb5164eaec4582988dcdbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunData: {fileID: 11400000, guid: 38d0cb05551daea489e5ae2127089ee8, type: 2}
+  gunAnimator: {fileID: 0}
 --- !u!1 &6773425714854803299
 GameObject:
   m_ObjectHideFlags: 0

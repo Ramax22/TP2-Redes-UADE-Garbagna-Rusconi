@@ -47,6 +47,8 @@ MonoBehaviour:
   - GameStart
   - InitializeGame
   - SetTeam
+  - EquipGun
+  - GetGun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

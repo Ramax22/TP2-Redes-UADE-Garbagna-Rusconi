@@ -28,6 +28,8 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] GameObject _myCamera;
     //GameManager _gameManager;
 
+    [SerializeField] GameObject debugGun;
+
     //[SerializeField] CameraBehaviour cB;
     private void Start()
     {
@@ -82,6 +84,11 @@ public class PlayerScript : MonoBehaviourPun
         }
 
         //if (Input.GetKeyDown(KeyCode.Space)) Die(); //TESTING
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            GetGun(debugGun);
+            EquipGun(debugGun);
+        }
     }
 
     #region ~~~ HP FUNCTIONS ~~~
@@ -121,13 +128,17 @@ public class PlayerScript : MonoBehaviourPun
     #endregion
 
     #region ~~~ WEAPONS FUNCTIONS ~~~
+    [PunRPC]
     public void GetGun(GameObject gunObj)
     {
         gunObj.transform.SetParent(gunPoint.transform);
         Instantiate(gunObj);
         gunList.Add(gunObj);
+        if(PhotonNetwork.IsMasterClient==false)
+            photonView.RPC("GetGun", GameServer.Instance.Server, gunObj);
     }
 
+    [PunRPC]
     public void EquipGun(GameObject gun)
     {
         if (equippedGun != null)
@@ -135,7 +146,9 @@ public class PlayerScript : MonoBehaviourPun
             equippedGun.SetActive(false);
             equippedGun = gun;
             gun.SetActive(true);
-            gunScript = gun.GetComponent<GunManager>();
+            gunScript = gun.GetComponent<GunManager>(); 
+            if (PhotonNetwork.IsMasterClient == false)
+                photonView.RPC("EquipGun", GameServer.Instance.Server, gun);
         }
     }
 
