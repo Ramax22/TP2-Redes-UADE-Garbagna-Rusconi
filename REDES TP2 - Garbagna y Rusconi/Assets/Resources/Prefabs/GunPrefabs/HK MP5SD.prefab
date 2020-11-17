@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: 5993414abedbd1f4abe388893538ec81, type: 2}
+  gunAnimator: {fileID: 0}
 --- !u!1 &5070313999906463806
 GameObject:
   m_ObjectHideFlags: 0

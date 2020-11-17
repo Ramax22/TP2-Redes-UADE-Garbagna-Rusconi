@@ -25,6 +25,7 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] int ammoCount;
     [SerializeField] AudioListener _audioListener;
     [SerializeField] GameObject gunPoint;
+    [SerializeField] GameObject _myCamera;
     //GameManager _gameManager;
 
     //[SerializeField] CameraBehaviour cB;
@@ -42,12 +43,18 @@ public class PlayerScript : MonoBehaviourPun
         if (photonView.IsMine)
         {
             aimingPoint.SetActive(true);
+            _audioListener.enabled = true;
             //cB = Camera.main.gameObject.GetComponentInParent<CameraBehaviour>();
             //cB.GetPlayer(this.gameObject);
         }
         else
         {
             if (_audioListener != null) _audioListener.enabled = false; //Hago esto para desactivar los listeners de otros players
+        }
+
+        if (!photonView.IsMine)
+        {
+            _myCamera.SetActive(false);
         }
 
         isDead = false;
