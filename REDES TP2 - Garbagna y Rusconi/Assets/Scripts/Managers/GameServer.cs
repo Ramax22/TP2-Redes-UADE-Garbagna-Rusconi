@@ -14,7 +14,6 @@ public class GameServer : MonoBehaviourPun
 
     Dictionary<Player, PlayerScript> _dic = new Dictionary<Player, PlayerScript>();
     Dictionary<PlayerScript, Player> _dicInverse = new Dictionary<PlayerScript, Player>();
-    
 
     [SerializeField] bool gameStart = false;
 
@@ -23,8 +22,6 @@ public class GameServer : MonoBehaviourPun
     List<Player> listTeamOne = new List<Player>();
     List<Player> listTeamTwo = new List<Player>();
     int playerTeam = 0;
-
-
 
     private void Awake()
     {
@@ -102,7 +99,26 @@ public class GameServer : MonoBehaviourPun
             playerTeam = team;
         }
     }
-        
+
+    #region ~~~ ACTION SCRIPTS ~~~
+    public void Shoot(int _view, bool hasQuadDamage)
+    {
+        photonView.RPC("RpcShoot", _server, _view, hasQuadDamage);
+    }
+
+    [PunRPC]
+    void RpcShoot(int client, bool hasQuadDamage)
+    {
+        var sender = PhotonView.Find(client).transform;
+        var foward = sender.forward + sender.forward;
+        if (Physics.Raycast(sender.position + sender.forward, foward, out RaycastHit hit, 60))
+        {
+            Debug.DrawLine(sender.position + sender.forward, hit.point, Color.green, 0.5f);
+
+        }
+    }
+    #endregion
+
     //Player Spawn
 
     public void SpawnRequest(Player p)

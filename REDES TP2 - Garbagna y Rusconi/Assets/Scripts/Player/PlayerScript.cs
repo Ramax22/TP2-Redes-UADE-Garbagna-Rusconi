@@ -7,55 +7,32 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviourPun
 {
+    [Header("Generic Values")]
     [SerializeField] float speed;
-    [SerializeField] CharacterController cc;
-    [SerializeField] Vector3 movement;
-    [SerializeField] Vector3 mousePosition;
-    [SerializeField] bool isDead;
     [SerializeField] float initialhealth;
-    //[SerializeField] Text hpText;
-    [SerializeField] GameObject aimingPoint;
-    [SerializeField] float horizontalRotation = 0;
-    [SerializeField] float verticalRotation = 0;
-    [SerializeField] float verticalRotationLimit = 80f;
-    Health hp;
-    [SerializeField] GameObject equippedGun;
-    [SerializeField] GunManager gunScript;
-    [SerializeField] List<GameObject> gunList;
-    [SerializeField] int ammoCount;
-    [SerializeField] AudioListener _audioListener;
-    [SerializeField] GameObject gunPoint;
+    [SerializeField] int initialAmmo;
     [SerializeField] GameObject _myCamera;
-    //GameManager _gameManager;
+    [SerializeField] bool _quadDamage;
 
-    [SerializeField] GameObject debugGun;
+    bool isDead;
+    CharacterController cc;
+    Vector3 movement;
+    Vector3 mousePosition;
+    int ammoCount; 
+    float horizontalRotation = 0;
+    float verticalRotation = 0;
+    float verticalRotationLimit = 80f;
+    Health hp;
 
-    //[SerializeField] CameraBehaviour cB;
     private void Start()
     {
         cc = GetComponent<CharacterController>();
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            //_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            //_gameManager.AddPlayerToList(this);
-        }
-
         hp = new Health(initialhealth, Die);
-        if (photonView.IsMine)
-        {
-            aimingPoint.SetActive(true);
-            _audioListener.enabled = true;
-            //cB = Camera.main.gameObject.GetComponentInParent<CameraBehaviour>();
-            //cB.GetPlayer(this.gameObject);
-        }
-        else
-        {
-            if (_audioListener != null) _audioListener.enabled = false; //Hago esto para desactivar los listeners de otros players
-        }
 
         if (!photonView.IsMine)
         {
+            ammoCount = initialAmmo;
             _myCamera.SetActive(false);
         }
 
@@ -68,6 +45,7 @@ public class PlayerScript : MonoBehaviourPun
 
         if (!isDead)
         {
+            //MOVEMENT & CAMERA
             var h = Input.GetAxis("Horizontal") * transform.right;
             var v = Input.GetAxis("Vertical") * transform.forward;
             movement = (h + v) * Time.deltaTime * speed;
@@ -79,15 +57,10 @@ public class PlayerScript : MonoBehaviourPun
             verticalRotation -= Input.GetAxisRaw("Mouse Y");
             horizontalRotation = Input.GetAxisRaw("Mouse X");
             verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
-            aimingPoint.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-            gameObject.transform.Rotate(new Vector3(0, horizontalRotation, 0));
-        }
+            transform.Rotate(new Vector3(0, horizontalRotation, 0));
 
-        //if (Input.GetKeyDown(KeyCode.Space)) Die(); //TESTING
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            GetGun(debugGun);
-            EquipGun(debugGun);
+            //SHOOT
+            if (Input.GetButtonDown("Fire1")) Shoot();
         }
     }
 
@@ -128,83 +101,40 @@ public class PlayerScript : MonoBehaviourPun
     #endregion
 
     #region ~~~ WEAPONS FUNCTIONS ~~~
-    [PunRPC]
-    public void GetGun(GameObject gunObj)
+    
+    void Shoot()
     {
-        gunObj.transform.SetParent(gunPoint.transform);
-        Instantiate(gunObj);
-        gunList.Add(gunObj);
-        if(PhotonNetwork.IsMasterClient==false)
-            photonView.RPC("GetGun", GameServer.Instance.Server, gunObj);
+        //if (ammoCount > 0)
+        //{
+            ammoCount--;
+            GameServer.Instance.Shoot(photonView.ViewID, _quadDamage);
+        //}
     }
 
-    [PunRPC]
-    public void EquipGun(GameObject gun)
-    {
-        if (equippedGun != null)
-        {
-            equippedGun.SetActive(false);
-            equippedGun = gun;
-            gun.SetActive(true);
-            gunScript = gun.GetComponent<GunManager>(); 
-            if (PhotonNetwork.IsMasterClient == false)
-                photonView.RPC("EquipGun", GameServer.Instance.Server, gun);
-        }
-    }
+    
 
-    public void Reload()
-    {
-        if(equippedGun!=null)
-        {
-            if(gunScript.CanReload()==true && ammoCount>0)
-            { 
-                int ammoNeeded = gunScript.AmmoNeeded();
-                if(ammoNeeded<=ammoCount) //HAY QUE AGREGAR UN CHECKEO DE AMMOTYPE SI HACEMOS OTRA ARMA
-                {
-                    ammoCount -= ammoNeeded;
-                    gunScript.Reload(ammoNeeded);
-                }
-                else
-                {
-                    gunScript.Reload(ammoCount);
-                    ammoCount = 0;
-                }
-                //AGREGAR QUE DESPUES DE RECARGAR CHECKEE CUANTA AMMO HAY EN EL ARMA PARA ACTUALIZAR EL HUD
-            }
-        }
-    }
-
-    //Send shoot to player (desp comento que es, es para no olvidarme que ahora rindo)
+    //public void Reload()
+    //{
+    //    if(equippedGun!=null)
+    //    {
+    //        if(gunScript.CanReload()==true && ammoCount>0)
+    //        { 
+    //            int ammoNeeded = gunScript.AmmoNeeded();
+    //            if(ammoNeeded<=ammoCount) //HAY QUE AGREGAR UN CHECKEO DE AMMOTYPE SI HACEMOS OTRA ARMA
+    //            {
+    //                ammoCount -= ammoNeeded;
+    //                gunScript.Reload(ammoNeeded);
+    //            }
+    //            else
+    //            {
+    //                gunScript.Reload(ammoCount);
+    //                ammoCount = 0;
+    //            }
+    //            //AGREGAR QUE DESPUES DE RECARGAR CHECKEE CUANTA AMMO HAY EN EL ARMA PARA ACTUALIZAR EL HUD
+    //        }
+    //    }
+    
 
     //CHE PADRELANDIA, cuando haga el disparo, haga que revise que el CanShoot del gunmanager revise true, sino no dispare. Tengo armada parte de la logica del behaviour para el disparo (menos el raycast) en GunInterface, revise ahi
     #endregion
-
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONES SIN REFERENCIAS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //public bool IsDead
-    //{
-    //    get { return isDead; }
-    //}
-
-    //public void getHpText(Text t)
-    //{
-    //    if (photonView.IsMine)
-    //    {
-    //        //hpText = t;
-    //    }
-    //}
-
-    //public void MaxHp()
-    //{
-    //    photonView.RPC("MaxHpRPC", RpcTarget.All);
-    //}
-
-    //[PunRPC]
-    //public void MaxHpRPC()
-    //{
-    //    hp.MaxLife();
-    //    if (photonView.IsMine)
-    //    {
-    //        //hpText.text = ("HP: " + hp.HP);
-    //    }
-    //}
 }
