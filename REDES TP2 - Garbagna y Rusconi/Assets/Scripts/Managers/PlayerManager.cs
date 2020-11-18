@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
 
-    [SerializeField] int team = 0;
+    //[SerializeField] int team = 0;
     [SerializeField] GameObject playerPrefab;
     [SerializeField] bool spawned = false;
 
@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour
 
     void SetUp()
     {
-        team = GameServer.Instance.PlayerTeam;
+        //team = GameServer.Instance.PlayerTeam;
         //GameServer.Instance.SpawnRequest(PhotonNetwork.LocalPlayer);
         //Esto antes estaba aca, pero lo puse en una funcion separada para poder hacer que el player respawnee
         RequestToServerSpawn();

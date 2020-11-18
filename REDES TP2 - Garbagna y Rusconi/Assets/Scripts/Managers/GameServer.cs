@@ -18,10 +18,10 @@ public class GameServer : MonoBehaviourPun
     [SerializeField] bool gameStart = false;
 
     //Team Vars
-    Dictionary<Player, int> _dicTeam = new Dictionary<Player, int>();
+    /*Dictionary<Player, int> _dicTeam = new Dictionary<Player, int>();
     List<Player> listTeamOne = new List<Player>();
     List<Player> listTeamTwo = new List<Player>();
-    int playerTeam = 0;
+    int playerTeam = 0;*/
 
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class GameServer : MonoBehaviourPun
     void PlayerConnected(Player p)
     {
         Debug.Log("User " + p + " connected");
-        if(listTeamOne.Count<= listTeamTwo.Count)
+        /*if(listTeamOne.Count<= listTeamTwo.Count)
         { 
             _dicTeam.Add(p, 1);
             listTeamOne.Add(p);
@@ -72,7 +72,7 @@ public class GameServer : MonoBehaviourPun
             listTeamTwo.Add(p);
         }
 
-        photonView.RPC("SetTeam", p,_dicTeam[p]);
+        photonView.RPC("SetTeam", p,_dicTeam[p]);*/
 
         if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart==false)
         {
@@ -89,14 +89,14 @@ public class GameServer : MonoBehaviourPun
         PhotonNetwork.LoadLevel("GameScene");
     }
 
-    [PunRPC]
+    /*[PunRPC]
     void SetTeam(int team)
     {
         if(!PhotonNetwork.IsMasterClient)
         {
             playerTeam = team;
         }
-    }
+    }*/
 
     #region ~~~ ACTION SCRIPTS ~~~
     public void Shoot(int _view, bool hasQuadDamage)
@@ -151,7 +151,7 @@ public class GameServer : MonoBehaviourPun
         {
             GameObject spawnPos;
             //Aca, dependiendo del equipo, lo instancia en un lado u otro
-            if(_dicTeam[client]==1)
+            /*if(_dicTeam[client]==1)
             {
                 //Aca se resetea el ponter el vector3 donde se instancia a los jugadores
                 if (SpawnsManager.Instance.CounterOne >= SpawnsManager.Instance.TeamOneSpawns.Count)
@@ -168,7 +168,12 @@ public class GameServer : MonoBehaviourPun
 
                 spawnPos = SpawnsManager.Instance.TeamTwoSpawns[SpawnsManager.Instance.CounterTwo];
                 SpawnsManager.Instance.CounterTwo++;
-            }
+            }*/
+            if (SpawnsManager.Instance.Counter >= SpawnsManager.Instance.SpawnPoints.Count)
+                SpawnsManager.Instance.Counter = 0;
+
+            spawnPos = SpawnsManager.Instance.SpawnPoints[SpawnsManager.Instance.Counter];
+            SpawnsManager.Instance.Counter++;
 
 
             GameObject obj = PhotonNetwork.Instantiate(prefabAdress, spawnPos.transform.position, spawnPos.transform.rotation);
@@ -183,7 +188,7 @@ public class GameServer : MonoBehaviourPun
     }
 
     public bool GameStart { get => gameStart; }
-    public Dictionary<Player, int> DicTeam { get => _dicTeam; }
-    public int PlayerTeam { get => playerTeam; }
+    //public Dictionary<Player, int> DicTeam { get => _dicTeam; }
+    //public int PlayerTeam { get => playerTeam; }
     public Player Server { get => _server; set => _server = value; }
 }

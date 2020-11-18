@@ -37,6 +37,13 @@ public class PlayerScript : MonoBehaviourPun
         }
 
         isDead = false;
+
+        if (photonView.IsMine)
+        { 
+            HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
+            HUDManager.Instance.ChangeAmmoText(ammoCount);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     void Update()
@@ -60,7 +67,18 @@ public class PlayerScript : MonoBehaviourPun
             transform.Rotate(new Vector3(0, horizontalRotation, 0));
 
             //SHOOT
-            if (Input.GetButtonDown("Fire1")) Shoot();
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if(Cursor.lockState==CursorLockMode.None)
+                Cursor.lockState = CursorLockMode.Locked;
+
+                Shoot();
+            }
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
     }
 
@@ -68,7 +86,10 @@ public class PlayerScript : MonoBehaviourPun
     [PunRPC]
     public void ChangeLife(float value)
     {
+
         hp.ChangeLife(value);
+        if (photonView.IsMine)
+        HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
 
         //if (photonView.IsMine) hpText.text = ("HP: " + hp.HP);
     }
@@ -83,6 +104,11 @@ public class PlayerScript : MonoBehaviourPun
         isDead = true;
         GameServer.Instance.RequestRespawn();
         //Esto lo tiene que hacer el server de alguna manera
+        if(photonView.IsMine)
+        { 
+            HUDManager.Instance.ClearTexts();
+            Cursor.lockState = CursorLockMode.None;
+        }
         PhotonNetwork.Destroy(gameObject);
         print("Muerto");
         /*if (photonView.IsMine)
@@ -113,11 +139,15 @@ public class PlayerScript : MonoBehaviourPun
         //if (ammoCount > 0)
         //{
             ammoCount--;
+            HUDManager.Instance.ChangeAmmoText(ammoCount);
             GameServer.Instance.Shoot(photonView.ViewID, _quadDamage);
         //}
     }
 
+    public void AmmoChange()
+    {
 
+    }
 
     //public void Reload()
     //{
@@ -148,8 +178,10 @@ public class PlayerScript : MonoBehaviourPun
     //Actica esto cuando agarre el quad damage
     IEnumerator QuadDamageDuration()
     {
+        HUDManager.Instance.EnableQuad();
         yield return new WaitForSeconds(10);
         _quadDamage = false;
+        HUDManager.Instance.DisableQuad();
     }
     #endregion
 }
