@@ -45,8 +45,6 @@ public class GameServer : MonoBehaviourPun
             }
         }
     }
-    
-
 
     [PunRPC]
     void SetServer(Player s)
@@ -115,6 +113,15 @@ public class GameServer : MonoBehaviourPun
         {
             Debug.DrawLine(sender.position + sender.forward, hit.point, Color.green, 0.5f);
 
+            var playerScript = hit.collider.GetComponent<PlayerScript>();
+            if (playerScript != null)
+            {
+                var owner = hit.collider.GetComponent<PhotonView>().Owner;
+                var damage = 5;
+                if (hasQuadDamage) damage *= 4;
+
+                playerScript.CallChangeLife(damage, owner);
+            }
         }
     }
     #endregion
@@ -124,6 +131,17 @@ public class GameServer : MonoBehaviourPun
     public void SpawnRequest(Player p)
     {
         photonView.RPC("SpawnPlayer", _server, p);
+    }
+
+    public void RequestRespawn()
+    {
+        StartCoroutine(RespawnWait());
+    }
+
+    IEnumerator RespawnWait()
+    {
+        yield return new WaitForSeconds(3);
+        SpawnRequest(PhotonNetwork.LocalPlayer);
     }
 
     [PunRPC]

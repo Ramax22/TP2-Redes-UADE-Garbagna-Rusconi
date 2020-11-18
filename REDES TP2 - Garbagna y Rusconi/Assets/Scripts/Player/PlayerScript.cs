@@ -73,9 +73,15 @@ public class PlayerScript : MonoBehaviourPun
         //if (photonView.IsMine) hpText.text = ("HP: " + hp.HP);
     }
 
+    public void CallChangeLife(float value, Player owner)
+    {
+        photonView.RPC("ChangeLife", owner, value);
+    }
+
     void Die() //Vamos a tener que encontrar una manera de hacer bien la muerte
     {
         isDead = true;
+        GameServer.Instance.RequestRespawn();
         //Esto lo tiene que hacer el server de alguna manera
         PhotonNetwork.Destroy(gameObject);
         print("Muerto");
@@ -111,7 +117,7 @@ public class PlayerScript : MonoBehaviourPun
         //}
     }
 
-    
+
 
     //public void Reload()
     //{
@@ -133,8 +139,17 @@ public class PlayerScript : MonoBehaviourPun
     //            //AGREGAR QUE DESPUES DE RECARGAR CHECKEE CUANTA AMMO HAY EN EL ARMA PARA ACTUALIZAR EL HUD
     //        }
     //    }
-    
+
 
     //CHE PADRELANDIA, cuando haga el disparo, haga que revise que el CanShoot del gunmanager revise true, sino no dispare. Tengo armada parte de la logica del behaviour para el disparo (menos el raycast) en GunInterface, revise ahi
+    #endregion
+
+    #region ~~~ QUAD DAMAGE FUNCTIONS ~~~
+    //Actica esto cuando agarre el quad damage
+    IEnumerator QuadDamageDuration()
+    {
+        yield return new WaitForSeconds(10);
+        _quadDamage = false;
+    }
     #endregion
 }
