@@ -17,6 +17,9 @@ public class GameServer : MonoBehaviourPun
 
     [SerializeField] bool gameStart = false;
 
+    Dictionary<Player, int> _scoreDic;
+    int _myScore;
+
     //Team Vars
     /*Dictionary<Player, int> _dicTeam = new Dictionary<Player, int>();
     List<Player> listTeamOne = new List<Player>();
@@ -37,11 +40,15 @@ public class GameServer : MonoBehaviourPun
             Instance = this;
             if(PhotonNetwork.IsMasterClient)
             {
+                _scoreDic = new Dictionary<Player, int>();
                 Player currentClient = PhotonNetwork.LocalPlayer;
                 //_server = currentClient;
                 //Debug.Log(_server);
                 photonView.RPC("SetServer", RpcTarget.AllBuffered, currentClient);
-                
+            }
+            else
+            {
+                _myScore = 0;
             }
         }
     }
@@ -73,6 +80,8 @@ public class GameServer : MonoBehaviourPun
         }
 
         photonView.RPC("SetTeam", p,_dicTeam[p]);*/
+
+        _scoreDic.Add(p, 0);
 
         if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart==false)
         {
@@ -107,11 +116,13 @@ public class GameServer : MonoBehaviourPun
     [PunRPC]
     void RpcShoot(int client, bool hasQuadDamage)
     {
-        var sender = PhotonView.Find(client).transform;
+        var whoShoot = PhotonView.Find(client);
+        var sender = whoShoot.transform;
         var foward = sender.forward + sender.forward;
-        if (Physics.Raycast(sender.position + sender.forward, foward, out RaycastHit hit, 60))
+        //if (Physics.Raycast(sender.position + sender.forward, foward, out RaycastHit hit, 60))
+        if (Physics.Raycast(sender.position, sender.forward, out RaycastHit hit, 60))
         {
-            Debug.DrawLine(sender.position + sender.forward, hit.point, Color.green, 0.5f);
+            Debug.DrawLine(sender.position, hit.point, Color.green, 0.5f);
 
             var playerScript = hit.collider.GetComponent<PlayerScript>();
             if (playerScript != null)
@@ -120,9 +131,29 @@ public class GameServer : MonoBehaviourPun
                 var damage = 5;
                 if (hasQuadDamage) damage *= 4;
 
-                playerScript.CallChangeLife(damage, owner);
+                playerScript.CallChangeLife(damage, owner, whoShoot.Owner);
             }
         }
+    }
+    #endregion
+
+    #region ~~~ SCORE FUNCTIONS ~~~
+    public void AddScore(Player p)
+    {
+        photonView.RPC("RpcAddScore", _server, p);
+    }
+
+    [PunRPC]
+    void RpcAddScore(Player p)
+    {
+        _scoreDic[p]++;
+        photonView.RPC("AddScoreLocal", p, _scoreDic[p]);
+    }
+
+    [PunRPC]
+    void AddScoreLocal(int newScore)
+    {
+        Debug.LogError("My new score is " + newScore);
     }
     #endregion
 

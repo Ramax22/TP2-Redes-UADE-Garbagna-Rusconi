@@ -23,6 +23,7 @@ public class PlayerScript : MonoBehaviourPun
     float verticalRotation = 0;
     float verticalRotationLimit = 80f;
     Health hp;
+    Player _lastHitBy;
 
     private void Start()
     {
@@ -32,14 +33,14 @@ public class PlayerScript : MonoBehaviourPun
 
         if (!photonView.IsMine)
         {
-            ammoCount = initialAmmo;
             _myCamera.SetActive(false);
         }
 
         isDead = false;
 
         if (photonView.IsMine)
-        { 
+        {
+            ammoCount = initialAmmo;
             HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
             HUDManager.Instance.ChangeAmmoText(ammoCount);
             Cursor.lockState = CursorLockMode.Locked;
@@ -84,19 +85,20 @@ public class PlayerScript : MonoBehaviourPun
 
     #region ~~~ HP FUNCTIONS ~~~
     [PunRPC]
-    public void ChangeLife(float value)
+    public void ChangeLife(float value, Player whoShoot)
     {
-
+        _lastHitBy = whoShoot;
         hp.ChangeLife(value);
-        if (photonView.IsMine)
-        HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
+        
+
+        HUDManager.Instance.ChangeHPText((int)hp.HP);
 
         //if (photonView.IsMine) hpText.text = ("HP: " + hp.HP);
     }
 
-    public void CallChangeLife(float value, Player owner)
+    public void CallChangeLife(float value, Player owner, Player whoShoot)
     {
-        photonView.RPC("ChangeLife", owner, value);
+        photonView.RPC("ChangeLife", owner, value, whoShoot);
     }
 
     void Die() //Vamos a tener que encontrar una manera de hacer bien la muerte
@@ -109,6 +111,8 @@ public class PlayerScript : MonoBehaviourPun
             HUDManager.Instance.ClearTexts();
             Cursor.lockState = CursorLockMode.None;
         }
+        GameServer.Instance.AddScore(_lastHitBy);
+
         PhotonNetwork.Destroy(gameObject);
         print("Muerto");
         /*if (photonView.IsMine)
@@ -122,26 +126,26 @@ public class PlayerScript : MonoBehaviourPun
         //if (PhotonNetwork.IsMasterClient) _gameManager.CheckEndgame();
     }
 
-    public void GetDamaged(float value, Player client)
+    /*public void GetDamaged(float value, Player client)
     {
         photonView.RPC("ChangeLife", client, value); //aca se lo manda al cliente
         if (GameServer.Instance.Server == PhotonNetwork.LocalPlayer) ChangeLife(value); //esto solo lo ejecuta el server, pero solamente para tener controlada la
         //Vida del jugador al que esta lastimando (tipo, lo pienso por si hay cheats).
 
         //photonView.RPC("ChangeLife", RpcTarget.All, value);
-    }
+    }*/
     #endregion
 
     #region ~~~ WEAPONS FUNCTIONS ~~~
     
     void Shoot()
     {
-        //if (ammoCount > 0)
-        //{
+        if (ammoCount > 0)
+        {
             ammoCount--;
             HUDManager.Instance.ChangeAmmoText(ammoCount);
             GameServer.Instance.Shoot(photonView.ViewID, _quadDamage);
-        //}
+        }
     }
 
     public void AmmoChange()
