@@ -17,6 +17,8 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     private void Start()
     {
+        DontDestroyOnLoad(this);
+
         if (!PhotonNetwork.IsConnected) Destroy(this);
 
         //Inicializo el chat client

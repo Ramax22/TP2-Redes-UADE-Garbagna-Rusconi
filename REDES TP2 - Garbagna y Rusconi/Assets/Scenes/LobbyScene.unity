@@ -194,9 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db31fbf0a27c3ac46bdd40cf63d20cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab
   playersNeeded: 1
   gameStart: 0
+  _matchMaxTime: 60
+  prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab
 --- !u!4 &298687762
 Transform:
   m_ObjectHideFlags: 0

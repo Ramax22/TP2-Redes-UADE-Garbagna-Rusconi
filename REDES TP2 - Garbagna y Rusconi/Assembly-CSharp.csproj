@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\Managers\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Managers\NetManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnsManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerScript.cs" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />

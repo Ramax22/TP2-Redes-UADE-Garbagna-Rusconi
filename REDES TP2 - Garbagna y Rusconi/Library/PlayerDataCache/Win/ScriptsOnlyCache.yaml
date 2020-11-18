@@ -9,6 +9,7 @@ ScriptsOnlyBuild:
     - PickUpScript
     - PlayerManager
     - PlayerScript
+    - ScoreManager
     - SpawnsManager
     PhotonUnityNetworking.Demos.dll:
     - Photon.Pun.Demo.Asteroids.Asteroid
@@ -20,8 +21,6 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonHandler
@@ -40,10 +39,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -185,6 +182,53 @@ ScriptsOnlyBuild:
     - Class: 157
       Script: {instanceID: 0}
     - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/ResultScene.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 9698}
+    - Class: 114
+      Script: {instanceID: 9894}
+    - Class: 114
+      Script: {instanceID: 10394}
+    - Class: 114
+      Script: {instanceID: 11086}
+    - Class: 114
+      Script: {instanceID: 11310}
+    - Class: 114
+      Script: {instanceID: 11378}
+    - Class: 114
+      Script: {instanceID: 11802}
+    - Class: 114
+      Script: {instanceID: 18116}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -422,7 +466,7 @@ ScriptsOnlyBuild:
     className: ChatGui
   - hash:
       serializedVersion: 2
-      Hash: 4d9a96fe203af4df8aa7fddd28f5e389
+      Hash: 10e7bc9dfafb6dbb2d537839318353b6
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameServer
@@ -1088,7 +1132,7 @@ ScriptsOnlyBuild:
     className: GameVersionProperty
   - hash:
       serializedVersion: 2
-      Hash: de904a6f1f4a21ffd0aab6682bc25060
+      Hash: fcd6680719e8ca7462980e450a35e6f4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: HUDManager
@@ -1698,10 +1742,17 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: a66fdfb79f3004bfd41ae90a32e679ce
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ScoreManager
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
   - Assets/Scenes/LobbyScene.unity
   - Assets/Scenes/GameScene.unity
+  - Assets/Scenes/ResultScene.unity
   playerPath: C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
     TP2 - Garbagna y Rusconi.exe

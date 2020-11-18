@@ -43,6 +43,7 @@ public class PlayerScript : MonoBehaviourPun
             ammoCount = initialAmmo;
             HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
             HUDManager.Instance.ChangeAmmoText(ammoCount);
+            HUDManager.Instance.ChangeKillsText(0);
             Cursor.lockState = CursorLockMode.Locked;
         }
     }

@@ -10,6 +10,8 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Text hpText;
     [SerializeField] Text ammoText;
     [SerializeField] Text quadText;
+    [SerializeField] Text killsText;
+
     private void Awake()
     {
         if (Instance == null)
@@ -26,6 +28,11 @@ public class HUDManager : MonoBehaviour
     public void ChangeAmmoText(int ammo)
     {
         ammoText.text = "AMMO: " + ammo;
+    }
+
+    public void ChangeKillsText(int kills)
+    {
+        killsText.text = "KILLS: " + kills;
     }
 
     public void EnableQuad()
