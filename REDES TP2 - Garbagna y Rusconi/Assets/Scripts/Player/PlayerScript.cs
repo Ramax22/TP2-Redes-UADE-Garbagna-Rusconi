@@ -104,6 +104,11 @@ public class PlayerScript : MonoBehaviourPun
         photonView.RPC("ChangeLife", owner, value, whoShoot);
     }
 
+    public void GetHP()
+    {
+        hp.MaxLife();
+    }
+
     void Die() //Vamos a tener que encontrar una manera de hacer bien la muerte
     {
         isDead = true;
@@ -115,7 +120,7 @@ public class PlayerScript : MonoBehaviourPun
             Cursor.lockState = CursorLockMode.None;
         }
         GameServer.Instance.AddScore(_lastHitBy);
-
+        HUDManager.Instance.ClearTexts();
         PhotonNetwork.Destroy(gameObject);
         print("Muerto");
         /*if (photonView.IsMine)
@@ -153,7 +158,7 @@ public class PlayerScript : MonoBehaviourPun
 
     public void AmmoChange()
     {
-
+        ammoCount = initialAmmo;
     }
 
     //public void Reload()
@@ -182,10 +187,17 @@ public class PlayerScript : MonoBehaviourPun
     #endregion
 
     #region ~~~ QUAD DAMAGE FUNCTIONS ~~~
+
+    public void GetQuad()
+    {
+        _quadDamage = true;
+        HUDManager.Instance.EnableQuad();
+        StartCoroutine(QuadDamageDuration());
+    }
+
     //Actica esto cuando agarre el quad damage
     IEnumerator QuadDamageDuration()
     {
-        HUDManager.Instance.EnableQuad();
         yield return new WaitForSeconds(10);
         _quadDamage = false;
         HUDManager.Instance.DisableQuad();

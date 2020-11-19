@@ -20,7 +20,15 @@ public class GameServer : MonoBehaviourPun
     int _myScore;
     float _matchTime;
     bool _startCountingTime;
+    [Header("Pick Up Spawn")]
+    [SerializeField] List<GameObject> pickUpSpawnPoints = new List<GameObject>();
+    [SerializeField] int puSpawnCounter;
+    [SerializeField] GameObject quadSpawnPoint;
+    [SerializeField] string hpAddress = "Prefabs/PickUpPrefabs/PickUpHP";
+    [SerializeField] string ammoAddress = "Prefabs/PickUpPrefabs/PickUpAmmo";
+    [SerializeField] string quadAddress = "Prefabs/PickUpPrefabs/PickUpQuad";
 
+    [SerializeField] List<Player> loggedPlayers;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -39,6 +47,7 @@ public class GameServer : MonoBehaviourPun
                 photonView.RPC("SetServer", RpcTarget.AllBuffered, currentClient);
                 _matchTime = 0;
                 _startCountingTime = false;
+                
             }
             else
             {
@@ -227,6 +236,12 @@ public class GameServer : MonoBehaviourPun
         gameStart = true;
         PhotonNetwork.LoadLevel("GameScene");
         _startCountingTime = true;
+        if(PhotonNetwork.IsMasterClient)
+        { 
+            InvokeRepeating("SpawnHP", Random.Range(10, 15), Random.Range(10, 15));
+            InvokeRepeating("SpawnAmmo", Random.Range(10, 15), Random.Range(10, 15));
+            InvokeRepeating("SpawnQuad", Random.Range(15, 20), Random.Range(15, 20));
+        }
     }
     
     //Funcion que hace que un cliente (el masterclient) se haga server
@@ -237,6 +252,14 @@ public class GameServer : MonoBehaviourPun
         Player currentClient = PhotonNetwork.LocalPlayer;
         if (_server != currentClient) photonView.RPC("PlayerConnected", _server, currentClient);
     }
+
+    /*[PunRPC] ACA PADRE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    void PlayerLogged(Player p)
+    {
+        loggedPlayers.Add(p);
+        if (loggedPlayers.Count - 1 >= playersNeeded && gameStart == false)
+            photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
+    }*/
 
     //Funcion que controla la duración de la partida
     void MatchDuration()
@@ -256,6 +279,75 @@ public class GameServer : MonoBehaviourPun
     {
         PhotonNetwork.LoadLevel("ResultScene");
     }
+    #endregion
+
+    #region ~~~ PICK UP FUNCTIONS ~~~
+
+    public void GotPickUp(PlayerScript pS, int type)
+    {
+        Player player = _dicInverse[pS];
+        photonView.RPC("GivePickUp", player, pS, type);
+    }
+
+    [PunRPC]
+    public void GivePickUp(PlayerScript pS, int type)
+    {
+        switch(type)
+        {
+            case 0:
+                pS.GetHP();
+                break;
+            case 1:
+                pS.AmmoChange();
+                break;
+            case 2:
+                pS.GetQuad();
+                break;
+        }
+    }
+
+    #endregion
+
+    #region ~~~ PICK UP SPAWN FUNCTIONS ~~~
+
+    public void GetSpawnPoints(List<GameObject> pointList, GameObject quadPoint)
+    {
+        pickUpSpawnPoints = pointList;
+        quadSpawnPoint = quadPoint;
+    }
+
+    void SpawnHP()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            if (puSpawnCounter >= pickUpSpawnPoints.Count)
+                puSpawnCounter = 0;
+
+            PhotonNetwork.Instantiate(hpAddress, pickUpSpawnPoints[puSpawnCounter].transform.position, pickUpSpawnPoints[puSpawnCounter].transform.rotation);
+            puSpawnCounter++;
+        }
+    }
+
+    void SpawnAmmo()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (puSpawnCounter >= pickUpSpawnPoints.Count)
+                puSpawnCounter = 0;
+
+            PhotonNetwork.Instantiate(ammoAddress, pickUpSpawnPoints[puSpawnCounter].transform.position, pickUpSpawnPoints[puSpawnCounter].transform.rotation);
+            puSpawnCounter++;
+        }
+    }
+
+    void SpawnQuad()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(quadAddress, quadSpawnPoint.transform.position, quadSpawnPoint.transform.rotation);
+        }
+    }
+
     #endregion
 
     public bool GameStart { get => gameStart; }
