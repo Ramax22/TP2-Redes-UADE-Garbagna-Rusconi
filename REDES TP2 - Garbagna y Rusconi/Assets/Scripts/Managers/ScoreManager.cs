@@ -36,6 +36,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     public void SetKillCount(int kills)
     {
-        _killsText.text = "You killed: " + kills + "enemies";
+        _killsText.text = "You killed: " + kills + " enemies";
     }
 }

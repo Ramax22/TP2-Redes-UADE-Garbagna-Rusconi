@@ -44,7 +44,7 @@ public class PlayerScript : MonoBehaviourPun
             HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
             HUDManager.Instance.ChangeAmmoText(ammoCount);
             HUDManager.Instance.ChangeKillsText(0);
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -81,6 +81,8 @@ public class PlayerScript : MonoBehaviourPun
             {
                 Cursor.lockState = CursorLockMode.None;
             }
+
+            if (Input.GetKeyDown(KeyCode.L)) Debug.LogError(PhotonNetwork.CurrentRoom.PlayerCount);
         }
     }
 
