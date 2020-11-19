@@ -104,9 +104,16 @@ public class PlayerScript : MonoBehaviourPun
         photonView.RPC("ChangeLife", owner, value, whoShoot);
     }
 
+    public void CallGetHP(Player owner)
+    {
+        photonView.RPC("GetHP", owner);
+    }
+
+    [PunRPC]
     public void GetHP()
     {
         hp.MaxLife();
+        HUDManager.Instance.ChangeHPText((int)hp.HP);
     }
 
     void Die() //Vamos a tener que encontrar una manera de hacer bien la muerte
@@ -122,26 +129,7 @@ public class PlayerScript : MonoBehaviourPun
         GameServer.Instance.AddScore(_lastHitBy);
         HUDManager.Instance.ClearTexts();
         PhotonNetwork.Destroy(gameObject);
-        print("Muerto");
-        /*if (photonView.IsMine)
-        {
-            Vector3 deadPos = new Vector3(500, 500, 500);
-            transform.position = deadPos;
-            //cB.StopFollowing();
-            hpText.text = ("Dead");
-        }*/
-
-        //if (PhotonNetwork.IsMasterClient) _gameManager.CheckEndgame();
     }
-
-    /*public void GetDamaged(float value, Player client)
-    {
-        photonView.RPC("ChangeLife", client, value); //aca se lo manda al cliente
-        if (GameServer.Instance.Server == PhotonNetwork.LocalPlayer) ChangeLife(value); //esto solo lo ejecuta el server, pero solamente para tener controlada la
-        //Vida del jugador al que esta lastimando (tipo, lo pienso por si hay cheats).
-
-        //photonView.RPC("ChangeLife", RpcTarget.All, value);
-    }*/
     #endregion
 
     #region ~~~ WEAPONS FUNCTIONS ~~~
@@ -156,38 +144,32 @@ public class PlayerScript : MonoBehaviourPun
         }
     }
 
+    public void CallGetAmmo(Player owner, int value)
+    {
+        photonView.RPC("GetAmmo", owner, value);
+    }
+
+    [PunRPC]
+    void GetAmmo(int value)
+    {
+        ammoCount += value;
+        HUDManager.Instance.ChangeAmmoText(ammoCount);
+    }
+
     public void AmmoChange()
     {
         ammoCount = initialAmmo;
     }
-
-    //public void Reload()
-    //{
-    //    if(equippedGun!=null)
-    //    {
-    //        if(gunScript.CanReload()==true && ammoCount>0)
-    //        { 
-    //            int ammoNeeded = gunScript.AmmoNeeded();
-    //            if(ammoNeeded<=ammoCount) //HAY QUE AGREGAR UN CHECKEO DE AMMOTYPE SI HACEMOS OTRA ARMA
-    //            {
-    //                ammoCount -= ammoNeeded;
-    //                gunScript.Reload(ammoNeeded);
-    //            }
-    //            else
-    //            {
-    //                gunScript.Reload(ammoCount);
-    //                ammoCount = 0;
-    //            }
-    //            //AGREGAR QUE DESPUES DE RECARGAR CHECKEE CUANTA AMMO HAY EN EL ARMA PARA ACTUALIZAR EL HUD
-    //        }
-    //    }
-
-
-    //CHE PADRELANDIA, cuando haga el disparo, haga que revise que el CanShoot del gunmanager revise true, sino no dispare. Tengo armada parte de la logica del behaviour para el disparo (menos el raycast) en GunInterface, revise ahi
     #endregion
 
     #region ~~~ QUAD DAMAGE FUNCTIONS ~~~
 
+    public void CallGetQuad(Player owner)
+    {
+        photonView.RPC("GetQuad", owner);
+    }
+
+    [PunRPC]
     public void GetQuad()
     {
         _quadDamage = true;

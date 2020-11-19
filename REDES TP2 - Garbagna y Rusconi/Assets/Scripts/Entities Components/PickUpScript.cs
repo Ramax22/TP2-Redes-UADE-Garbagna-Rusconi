@@ -4,43 +4,50 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class PickUpScript : MonoBehaviour
+public class PickUpScript : MonoBehaviourPunCallbacks
 {
-    Animator anim;
     [SerializeField] int type;
-    //0 es HP, 1 es ammo, 2 es quad
+    Animator _anim;
 
     void Start()
     {
-        anim = GetComponentInChildren<Animator>();
-        if (PhotonNetwork.IsMasterClient)
-            Invoke("FastAnim", 5);
+        if (!PhotonNetwork.IsMasterClient) return;
+        _anim = GetComponentInChildren<Animator>();
+        StartCoroutine(WaitToMoveFaster());
     }
 
-
-    public void FastAnim()
+    public void MoveFaster()
     {
-        Invoke("AutoDestroy", 5);
+        _anim.SetBool("SetBool", true);
     }
 
-    public void AutoDestroy()
+    IEnumerator WaitToMoveFaster()
     {
-        if(PhotonNetwork.IsMasterClient)
-        PhotonNetwork.Destroy(this.gameObject);
+        yield return new WaitForSeconds(5);
+        MoveFaster();
+        StartCoroutine(WaitToDestroy());
+    }
+
+    IEnumerator WaitToDestroy()
+    {
+        yield return new WaitForSeconds(5);
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        var photonId = other.transform.GetComponent<PhotonView>().Owner;
+        var player = other.transform.GetComponent<PlayerScript>();
+
+        if (player)
         {
-            PlayerScript pS;
-            pS = other.gameObject.GetComponent<PlayerScript>();
-            if(pS!=null)
-            {
-                GameServer.Instance.GotPickUp(pS, type);
-                AutoDestroy();
-            }
+            if (type == 0) player.CallGetAmmo(photonId, 10); //AMMO
+            else if (type == 1) player.CallGetHP(photonId); //LIFE
+            else player.CallGetQuad(photonId); //QuadDamage
+
+            PhotonNetwork.Destroy(gameObject);
         }
     }
-
 }

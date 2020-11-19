@@ -196,8 +196,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersNeeded: 1
   gameStart: 0
-  _matchMaxTime: 6e+11
+  _matchMaxTime: 60
   prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab
+  pickUpSpawnPoints: []
+  puSpawnCounter: 0
+  quadSpawnPoint: {fileID: 0}
+  hpAddress: Prefabs/PickUpPrefabs/PickUpHP
+  ammoAddress: Prefabs/PickUpPrefabs/PickUpAmmo
+  quadAddress: Prefabs/PickUpPrefabs/PickUpQuad
 --- !u!4 &298687762
 Transform:
   m_ObjectHideFlags: 0

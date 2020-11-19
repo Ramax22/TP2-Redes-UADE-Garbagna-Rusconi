@@ -20,13 +20,6 @@ public class GameServer : MonoBehaviourPun
     int _myScore;
     float _matchTime;
     bool _startCountingTime;
-    [Header("Pick Up Spawn")]
-    [SerializeField] List<GameObject> pickUpSpawnPoints = new List<GameObject>();
-    [SerializeField] int puSpawnCounter;
-    [SerializeField] GameObject quadSpawnPoint;
-    [SerializeField] string hpAddress = "Prefabs/PickUpPrefabs/PickUpHP";
-    [SerializeField] string ammoAddress = "Prefabs/PickUpPrefabs/PickUpAmmo";
-    [SerializeField] string quadAddress = "Prefabs/PickUpPrefabs/PickUpQuad";
 
     [SerializeField] List<Player> loggedPlayers;
     private void Awake()
@@ -279,75 +272,6 @@ public class GameServer : MonoBehaviourPun
     {
         PhotonNetwork.LoadLevel("ResultScene");
     }
-    #endregion
-
-    #region ~~~ PICK UP FUNCTIONS ~~~
-
-    public void GotPickUp(PlayerScript pS, int type)
-    {
-        Player player = _dicInverse[pS];
-        photonView.RPC("GivePickUp", player, pS, type);
-    }
-
-    [PunRPC]
-    public void GivePickUp(PlayerScript pS, int type)
-    {
-        switch(type)
-        {
-            case 0:
-                pS.GetHP();
-                break;
-            case 1:
-                pS.AmmoChange();
-                break;
-            case 2:
-                pS.GetQuad();
-                break;
-        }
-    }
-
-    #endregion
-
-    #region ~~~ PICK UP SPAWN FUNCTIONS ~~~
-
-    public void GetSpawnPoints(List<GameObject> pointList, GameObject quadPoint)
-    {
-        pickUpSpawnPoints = pointList;
-        quadSpawnPoint = quadPoint;
-    }
-
-    void SpawnHP()
-    {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            if (puSpawnCounter >= pickUpSpawnPoints.Count)
-                puSpawnCounter = 0;
-
-            PhotonNetwork.Instantiate(hpAddress, pickUpSpawnPoints[puSpawnCounter].transform.position, pickUpSpawnPoints[puSpawnCounter].transform.rotation);
-            puSpawnCounter++;
-        }
-    }
-
-    void SpawnAmmo()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            if (puSpawnCounter >= pickUpSpawnPoints.Count)
-                puSpawnCounter = 0;
-
-            PhotonNetwork.Instantiate(ammoAddress, pickUpSpawnPoints[puSpawnCounter].transform.position, pickUpSpawnPoints[puSpawnCounter].transform.rotation);
-            puSpawnCounter++;
-        }
-    }
-
-    void SpawnQuad()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.Instantiate(quadAddress, quadSpawnPoint.transform.position, quadSpawnPoint.transform.rotation);
-        }
-    }
-
     #endregion
 
     public bool GameStart { get => gameStart; }
