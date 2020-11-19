@@ -1,16 +1,13 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-/*
-    https://web.microsoftstream.com/video/5c917b19-cc6e-48b1-ad37-11c43560a635
-    time. 02:26:00
- */
-
-public class MainMenuManager : MonoBehaviour
+public class MainMenuManager : MonoBehaviourPunCallbacks
 {
     //Maximo largo de user y contraseña: 15 caracteres
 
@@ -33,15 +30,32 @@ public class MainMenuManager : MonoBehaviour
     //Variables
     string _urlCreateUser;
     string _urlFindUser;
+    bool _isLogged;
+    string _conn = "Prefabs/Connection";
+    Connection _connObj;
 
     private void Awake()
     {
-        //Establezco el orden de pantallas
-        ChangeToMainScreen();
+        //
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _isLogged = true;
+        }
+        else
+        {
+            //Establezco el orden de pantallas
+            ChangeToMainScreen();
 
-        //Seteo las URL
-        _urlCreateUser = "http://localhost/tp2_redes_garbagna_rusconi/createUser.php";
-        _urlFindUser = "http://localhost/tp2_redes_garbagna_rusconi/findUser.php";
+            //Seteo las URL
+            _urlCreateUser = "http://localhost/tp2_redes_garbagna_rusconi/createUser.php";
+            _urlFindUser = "http://localhost/tp2_redes_garbagna_rusconi/findUser.php";
+
+            //
+            _isLogged = false;
+
+            //Instancio un elemento para hacer la conexion con el Server
+            _connObj = PhotonNetwork.Instantiate(_conn, Vector3.zero, new Quaternion()).GetComponent<Connection>();
+        }
     }
 
     #region ~~~ FUNCIONES DE CAMBIO DE PANELES ~~~
@@ -77,14 +91,14 @@ public class MainMenuManager : MonoBehaviour
         //Si no tiene internet
         if (request.isNetworkError)
         {
-            Debug.Log("ERROR: Can't reach server");
+            Debug.LogError("ERROR: Can't reach server");
             return;
         }
 
         //Si no encontró la página
         if (request.isHttpError)
         {
-            Debug.Log("ERROR: Server not found");
+            Debug.LogError("ERROR: Server not found");
             return;
         }
     }
@@ -92,7 +106,7 @@ public class MainMenuManager : MonoBehaviour
 
     #region ~~~ FUNCIONES DEL PANEL REGISTER ~~~
     //Funcion para crear un usuario
-    IEnumerator CreateUserRequest(string username, string password, string url)
+    IEnumerator CreateUserRequest(string username, string password, Player p, Connection conn)
     {
         //Creo un formulario y agrego sus campos
         WWWForm form = new WWWForm();
@@ -100,7 +114,7 @@ public class MainMenuManager : MonoBehaviour
         form.AddField("password", password);
 
         //Hago un request
-        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        UnityWebRequest request = UnityWebRequest.Post(_urlCreateUser, form);
 
         //Espero a recibir el response
         yield return request.SendWebRequest();
@@ -110,45 +124,47 @@ public class MainMenuManager : MonoBehaviour
 
         //Agarro el response, y voy al éxito o al error
         var res = request.downloadHandler.text;
-        print(res);
-        if (res.Contains("Success")) OnRegisterSuccess();
-        else OnRegisterFail(res);
+
+        RpcOnRegisterFinish(res, p, conn);
+    }
+
+    //Funcion para enviar la cosnulta al server
+    public void RequestCreateUser()
+    {
+        _connObj.RequestCreateUser(_usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text);
+        //Debug.LogError(PhotonNetwork.LocalPlayer + " - " + _usernameFieldRegisterScreen.text + " - " + _passwordFieldRegisterScreen.text);
+        //photonView.RPC("CreateUser", GameServer.Instance.Server, _usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text, PhotonNetwork.LocalPlayer);
     }
 
     //Funcion que crea al usuario en la db
-    public void CreateUser()
+    public void CreateUser(string user, string pass, Player p, Connection connObj)
     {
         //TODO: REALIZAR VERIFICACIONES DESDE FRONTEND
 
         //Ejecuto la corutina 
-        StartCoroutine(CreateUserRequest(_usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text, _urlCreateUser));
+        StartCoroutine(CreateUserRequest(user, pass, p, connObj));
     }
 
-    //Funcion que se llama si el registro resulta ok
-    void OnRegisterSuccess()
+    void RpcOnRegisterFinish(string response, Player p, Connection conn)
     {
-        //Se loguea
-        StartCoroutine(LogInRequest(_usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text, _urlFindUser));
-    }
-
-    //Funcion que se llama si el registro resulta nook
-    void OnRegisterFail(string res)
-    {
-        print("fail");
+        conn.ResponseCreateUser(response, p);
     }
     #endregion
 
     #region ~~~ FUNCIONES DEL PANEL LOGIN ~~~
     //Funcion para mandar el request al login y trabajar con el response
-    IEnumerator LogInRequest(string username, string password, string url)
+    IEnumerator LogInRequest(string username, string password, Player p, Connection conn)
     {
+        
+
         //Creo el formulario
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         form.AddField("password", password);
 
         //Mando el request
-        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        UnityWebRequest request = UnityWebRequest.Post(_urlFindUser, form);
+        request.useHttpContinue = false;
 
         //Espero al response
         yield return request.SendWebRequest();
@@ -158,28 +174,30 @@ public class MainMenuManager : MonoBehaviour
 
         //Agarro el response, y voy al éxito o al error
         var res = request.downloadHandler.text;
-        if (res == "Server/Success") OnLoginSuccess();
-        else OnLoginFail(res);
+        Debug.LogError(res);
+
+        RpcOnLoginFinish(res, p, conn);
+
+        /*if (res == "Server/Success") OnLoginSuccess();
+        else OnLoginFail(res);*/
+    }
+
+    void RpcOnLoginFinish(string response, Player p, Connection conn)
+    {
+        conn.ResponseFindUser(response, p);
+    }
+
+    public void RequestFindUser()
+    {
+        _connObj.RequestFindUser(_usernameFieldLoginScreen.text, _passwordFieldLoginScreen.text);
     }
 
     //Funcion para loguearse
-    public void LogIn()
+    public void LogIn(string user, string pass, Player P, Connection conn)
     {
         //TODO: FRONTEND CHECK
 
-        StartCoroutine(LogInRequest(_usernameFieldLoginScreen.text, _passwordFieldLoginScreen.text, _urlFindUser));
-    }
-
-    //Funcion que es ejecutada en cada vez que el logueo es exitoso
-    void OnLoginSuccess()
-    {
-        print("Éxito");
-    }
-
-    //Funcion que es ejecutada en cada vez que el logueo es erroneo
-    void OnLoginFail(string response)
-    {
-        print("Fracaso");
+        StartCoroutine(LogInRequest(user, pass, P, conn));
     }
     #endregion
 }

@@ -21,7 +21,7 @@ public class GameServer : MonoBehaviourPun
     float _matchTime;
     bool _startCountingTime;
 
-    [SerializeField] List<Player> loggedPlayers;
+    public List<Player> loggedPlayers;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -40,7 +40,6 @@ public class GameServer : MonoBehaviourPun
                 photonView.RPC("SetServer", RpcTarget.AllBuffered, currentClient);
                 _matchTime = 0;
                 _startCountingTime = false;
-                
             }
             else
             {
@@ -213,11 +212,10 @@ public class GameServer : MonoBehaviourPun
     {
         _scoreDic.Add(p, 0); //Agrego al diccionario del server al jugador y sus kills
 
+
         //Si tengo los jugadores necesarios, y el juego no comenzo, comienzo el juego
-        if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart == false)
-            photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
-
-
+        //if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart == false)
+        //    photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
     }
     #endregion
 
@@ -229,12 +227,6 @@ public class GameServer : MonoBehaviourPun
         gameStart = true;
         PhotonNetwork.LoadLevel("GameScene");
         _startCountingTime = true;
-        if(PhotonNetwork.IsMasterClient)
-        { 
-            InvokeRepeating("SpawnHP", Random.Range(10, 15), Random.Range(10, 15));
-            InvokeRepeating("SpawnAmmo", Random.Range(10, 15), Random.Range(10, 15));
-            InvokeRepeating("SpawnQuad", Random.Range(15, 20), Random.Range(15, 20));
-        }
     }
     
     //Funcion que hace que un cliente (el masterclient) se haga server

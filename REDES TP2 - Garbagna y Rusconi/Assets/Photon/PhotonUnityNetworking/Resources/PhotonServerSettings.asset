@@ -60,6 +60,12 @@ MonoBehaviour:
   - GetAmmo
   - GetQuad
   - GetHP
+  - CreateUser
+  - RpcOnRegister
+  - RecibeCreateUser
+  - RecibeResponseCreateUser
+  - RecibeFindUser
+  - RecibeResponseFindUser
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
