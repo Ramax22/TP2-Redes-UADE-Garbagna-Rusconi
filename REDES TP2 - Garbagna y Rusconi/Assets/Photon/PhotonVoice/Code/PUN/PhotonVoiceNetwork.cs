@@ -518,7 +518,7 @@ namespace Photon.Voice.PUN
                 }
                 else if (this.Logger.IsWarningEnabled)
                 {
-                    this.Logger.LogWarning("VoiceInfo.UserData should be int/ViewId, received: {0}, do you have a Recorder not used with a PhotonVoiceView? is this expected?", 
+                    this.Logger.LogWarning("VoiceInfo.UserData should be int/ViewId, received: {0}, do you have a Recorder not used with a PhotonVoiceView? is this expected?",
                         remoteVoice.Info.UserData == null ? "null" : string.Format("{0} ({1})", remoteVoice.Info.UserData, remoteVoice.Info.UserData.GetType()));
                     if (remoteVoice.PlayerId == viewId / PhotonNetwork.MAX_VIEW_IDS)
                     {

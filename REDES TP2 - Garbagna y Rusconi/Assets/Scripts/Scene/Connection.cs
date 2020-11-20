@@ -52,21 +52,24 @@ public class Connection : MonoBehaviourPunCallbacks
         _menuManager.LogIn(user, pass, p, this);
     }
 
-    public void ResponseFindUser(string response, Player p)
+    public void ResponseFindUser(string user, string response, Player p)
     {
         if (response == "Server/Success")
         {
-            Debug.LogError("SUCCESS");
-            GameServer.Instance.loggedPlayers.Add(p);
+            GameServer.Instance.AddPlayerAndCheckGameForStart(p);
         }
 
-        photonView.RPC("RecibeResponseFindUser", p, response);
+        photonView.RPC("RecibeResponseFindUser", p, response, user);
     }
 
     [PunRPC]
-    void RecibeResponseFindUser(string response)
+    void RecibeResponseFindUser(string response, string user)
     {
-        if (response == "Server/Success") Debug.LogError("ta bien");
+        if (response == "Server/Success")
+        {
+            _menuManager.ChangeToloadingScreen();
+            PhotonNetwork.LocalPlayer.NickName = user;
+        }
         else Debug.LogError("LOGIN FAILED - " + response);
     }
     #endregion

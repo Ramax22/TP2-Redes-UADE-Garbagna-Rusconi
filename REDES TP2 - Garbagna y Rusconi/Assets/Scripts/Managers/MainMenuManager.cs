@@ -16,6 +16,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject _mainScreen;
     [SerializeField] GameObject _loginScreen;
     [SerializeField] GameObject _registerScreen;
+    [SerializeField] GameObject _waitingScreen;
 
     //Objetos de la pantalla Login
     [Header("Login Screen Objects")]
@@ -47,8 +48,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
             ChangeToMainScreen();
 
             //Seteo las URL
-            _urlCreateUser = "http://localhost/tp2_redes_garbagna_rusconi/createUser.php";
-            _urlFindUser = "http://localhost/tp2_redes_garbagna_rusconi/findUser.php";
+            _urlCreateUser = "http://localhost/redes/createUser.php";
+            _urlFindUser = "http://localhost/redes/findUser.php";
 
             //
             _isLogged = false;
@@ -65,6 +66,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         _mainScreen.SetActive(true);
         _loginScreen.SetActive(false);
         _registerScreen.SetActive(false);
+        _waitingScreen.SetActive(false);
     }
 
     //Ir a la pantalla de Login
@@ -73,6 +75,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         _mainScreen.SetActive(false);
         _loginScreen.SetActive(true);
         _registerScreen.SetActive(false);
+        _waitingScreen.SetActive(false);
     }
 
     //Ir a la pantalla de Register
@@ -81,6 +84,15 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         _mainScreen.SetActive(false);
         _loginScreen.SetActive(false);
         _registerScreen.SetActive(true);
+        _waitingScreen.SetActive(false);
+    }
+
+    public void ChangeToloadingScreen()
+    {
+        _mainScreen.SetActive(false);
+        _loginScreen.SetActive(false);
+        _registerScreen.SetActive(false);
+        _waitingScreen.SetActive(true);
     }
     #endregion
 
@@ -92,6 +104,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         if (request.isNetworkError)
         {
             Debug.LogError("ERROR: Can't reach server");
+            Debug.LogError(request.error);
             return;
         }
 
@@ -114,7 +127,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         form.AddField("password", password);
 
         //Hago un request
-        UnityWebRequest request = UnityWebRequest.Post(_urlCreateUser, form);
+        UnityWebRequest request = UnityWebRequest.Post("http://localhost/redes/createUser.php", form);
 
         //Espero a recibir el response
         yield return request.SendWebRequest();
@@ -132,8 +145,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void RequestCreateUser()
     {
         _connObj.RequestCreateUser(_usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text);
-        //Debug.LogError(PhotonNetwork.LocalPlayer + " - " + _usernameFieldRegisterScreen.text + " - " + _passwordFieldRegisterScreen.text);
-        //photonView.RPC("CreateUser", GameServer.Instance.Server, _usernameFieldRegisterScreen.text, _passwordFieldRegisterScreen.text, PhotonNetwork.LocalPlayer);
     }
 
     //Funcion que crea al usuario en la db
@@ -163,8 +174,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         form.AddField("password", password);
 
         //Mando el request
-        UnityWebRequest request = UnityWebRequest.Post(_urlFindUser, form);
-        request.useHttpContinue = false;
+        UnityWebRequest request = UnityWebRequest.Post("http://localhost/redes/findUser.php", form);
 
         //Espero al response
         yield return request.SendWebRequest();
@@ -174,17 +184,13 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
         //Agarro el response, y voy al éxito o al error
         var res = request.downloadHandler.text;
-        Debug.LogError(res);
 
-        RpcOnLoginFinish(res, p, conn);
-
-        /*if (res == "Server/Success") OnLoginSuccess();
-        else OnLoginFail(res);*/
+        RpcOnLoginFinish(res, p, conn, username);
     }
 
-    void RpcOnLoginFinish(string response, Player p, Connection conn)
+    void RpcOnLoginFinish(string response, Player p, Connection conn, string user)
     {
-        conn.ResponseFindUser(response, p);
+        conn.ResponseFindUser(user, response, p);
     }
 
     public void RequestFindUser()
@@ -196,7 +202,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void LogIn(string user, string pass, Player P, Connection conn)
     {
         //TODO: FRONTEND CHECK
-
         StartCoroutine(LogInRequest(user, pass, P, conn));
     }
     #endregion

@@ -1174,7 +1174,7 @@ ScriptsOnlyBuild:
     className: CurrentRoomPropertiesListedInLobbyProperty
   - hash:
       serializedVersion: 2
-      Hash: ad9a7529a8f1fa2e033e8ee0da431ace
+      Hash: 901459d8990f4732e4af517813f1fee2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainMenuManager

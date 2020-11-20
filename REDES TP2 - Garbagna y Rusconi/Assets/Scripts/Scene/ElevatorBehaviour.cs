@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class ElevatorBehaviour : MonoBehaviour
+public class ElevatorBehaviour : MonoBehaviourPunCallbacks
 {
     float _speed;
     int _direction;
@@ -10,13 +12,16 @@ public class ElevatorBehaviour : MonoBehaviour
 
     private void Start()
     {
-        _speed = Random.Range(1, 7);
+        if (!PhotonNetwork.IsMasterClient) return;
+        _speed = Random.Range(1, 3);
         _direction = Random.Range(0, 1);
         _rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (_direction == 1) _rb.velocity = Vector3.up * _speed;
         else _rb.velocity = Vector3.down * _speed;
 

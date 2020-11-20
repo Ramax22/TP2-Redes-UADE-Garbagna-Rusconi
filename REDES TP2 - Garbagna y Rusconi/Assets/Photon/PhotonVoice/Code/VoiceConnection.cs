@@ -36,7 +36,7 @@ namespace Photon.Voice.Unity
 
         /// <summary>Key to save the "Best Region Summary" in the Player Preferences.</summary>
         private const string PlayerPrefsKey = "VoiceCloudBestRegion";
-        
+
         private LoadBalancingTransport client;
         [SerializeField]
         private bool enableSupportLogger = false;
@@ -51,10 +51,10 @@ namespace Photon.Voice.Unity
 
         private int nextSendTickCount;
 
-        #if UNITY_EDITOR || !UNITY_ANDROID && !UNITY_IOS
+#if UNITY_EDITOR || !UNITY_ANDROID && !UNITY_IOS
         [SerializeField]
         private bool runInBackground = true;
-        #endif
+#endif
 
         /// <summary>
         /// time [ms] between statistics calculations
@@ -97,10 +97,10 @@ namespace Photon.Voice.Unity
 
         /// <summary> Settings to be used by this voice connection</summary>
         public AppSettings Settings;
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         [HideInInspector]
         public bool ShowSettings = true;
-        #endif
+#endif
 
         /// <summary> Special factory to link Speaker components with incoming remote audio streams</summary>
         public Func<int, byte, object, Speaker> SpeakerFactory;
@@ -116,7 +116,7 @@ namespace Photon.Voice.Unity
         /// and in case that there are multiple local users, the audio output might be sent to the headphones of a different user than intended.</remarks>
         public int PlayStationUserID = 0; // set from your games code
 #endif
-        
+
         /// <summary>Configures the minimal Time.timeScale at which Voice client will dispatch incoming messages within LateUpdate.</summary>
         /// <remarks>
         /// It may make sense to dispatch incoming messages, even if the timeScale is near 0.
@@ -124,10 +124,10 @@ namespace Photon.Voice.Unity
         /// Without dispatching messages, Voice client won't change state and does not handle updates.
         /// </remarks>
         public float MinimalTimeScaleToDispatchInFixedUpdate = -1f;
-        
+
         /// <summary> Auto instantiate a GameObject and attach a Speaker component to link to a remote audio stream if no candidate could be found </summary>
         public bool AutoCreateSpeakerIfNotFound = true;
-        
+
         #endregion
 
         #region Properties
@@ -172,11 +172,11 @@ namespace Photon.Voice.Unity
             {
                 if (this.client == null)
                 {
-                    #if USE_NEW_TRANSPORT
+#if USE_NEW_TRANSPORT
                     this.client = new LoadBalancingTransport2();
-                    #else
+#else
                     this.client = new LoadBalancingTransport();
-                    #endif
+#endif
                     this.client.VoiceClient.OnRemoteVoiceInfoAction += this.OnRemoteVoiceInfo;
                     this.client.StateChanged += this.OnVoiceStateChanged;
                     if (this.Settings != null && this.LogLevel < this.Settings.NetworkLogging)
@@ -193,7 +193,7 @@ namespace Photon.Voice.Unity
                 return this.client;
             }
         }
-        
+
         /// <summary>Returns underlying Photon Voice client.</summary>
         public VoiceClient VoiceClient { get { return this.Client.VoiceClient; } }
 
@@ -217,14 +217,14 @@ namespace Photon.Voice.Unity
                 {
                     if (value != null && value.GetComponentInChildren<Speaker>() == null)
                     {
-                        #if UNITY_EDITOR
+#if UNITY_EDITOR
                         Debug.LogError("SpeakerPrefab must have a component of type Speaker in its hierarchy.", this);
-                        #else
+#else
                         if (this.Logger.IsErrorEnabled)
                         {
                             this.Logger.LogError("SpeakerPrefab must have a component of type Speaker in its hierarchy.");
                         }
-                        #endif
+#endif
                         return;
                     }
                     this.speakerPrefab = value;
@@ -232,13 +232,13 @@ namespace Photon.Voice.Unity
             }
         }
 
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         public List<RemoteVoiceLink> CachedRemoteVoices
         {
             get { return this.cachedRemoteVoices; }
         }
-        #endif
+#endif
 
         /// <summary> Main Recorder to be used for transmission by default</summary>
         public Recorder PrimaryRecorder
@@ -267,7 +267,7 @@ namespace Photon.Voice.Unity
                 if (this.globalRecordersLogLevel != value)
                 {
                     this.globalRecordersLogLevel = value;
-                    #if UNITY_EDITOR
+#if UNITY_EDITOR
                     Recorder[] recorders = FindObjectsOfType<Recorder>(); // todo: get rid of this ugliness
                     for (int i = 0; i < recorders.Length; i++)
                     {
@@ -276,7 +276,7 @@ namespace Photon.Voice.Unity
                             recorders[i].LogLevel = this.globalRecordersLogLevel;
                         }
                     }
-                    #endif
+#endif
                 }
             }
         }
@@ -437,12 +437,12 @@ namespace Photon.Voice.Unity
                 this.supportLoggerComponent.Client = this.Client;
                 this.supportLoggerComponent.LogTrafficStats = true;
             }
-            #if UNITY_EDITOR || !UNITY_ANDROID && !UNITY_IOS
+#if UNITY_EDITOR || !UNITY_ANDROID && !UNITY_IOS
             if (this.runInBackground)
             {
                 Application.runInBackground = this.runInBackground;
             }
-            #endif
+#endif
             if (!this.primaryRecorderInitialized)
             {
                 this.TryInitializePrimaryRecorder();
@@ -576,7 +576,7 @@ namespace Photon.Voice.Unity
                 Destroy(speaker.gameObject);
             }
         }
-        
+
         private void OnRemoteVoiceInfo(int channelId, int playerId, byte voiceId, VoiceInfo voiceInfo, ref RemoteVoiceOptions options)
         {
             if (this.Logger.IsInfoEnabled)
@@ -713,9 +713,9 @@ namespace Photon.Voice.Unity
                     speaker.LogLevel = this.GlobalSpeakersLogLevel;
                 }
                 speaker.PlayDelayMs = this.GlobalPlaybackDelay;
-                #if UNITY_PS4 || UNITY_SHARLIN
+#if UNITY_PS4 || UNITY_SHARLIN
                 speaker.PlayStationUserID = this.PlayStationUserID;
-                #endif
+#endif
                 if (speaker.OnRemoteVoiceInfo(remoteVoice))
                 {
                     if (speaker.Actor == null)

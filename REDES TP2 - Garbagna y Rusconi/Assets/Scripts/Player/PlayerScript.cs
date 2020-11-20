@@ -81,8 +81,6 @@ public class PlayerScript : MonoBehaviourPun
             {
                 Cursor.lockState = CursorLockMode.None;
             }
-
-            if (Input.GetKeyDown(KeyCode.L)) Debug.LogError(PhotonNetwork.CurrentRoom.PlayerCount);
         }
     }
 

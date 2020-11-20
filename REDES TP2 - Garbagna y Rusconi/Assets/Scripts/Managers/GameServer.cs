@@ -20,6 +20,7 @@ public class GameServer : MonoBehaviourPun
     int _myScore;
     float _matchTime;
     bool _startCountingTime;
+    bool _corutineAlreadyCalled = false;
 
     public List<Player> loggedPlayers;
     private void Awake()
@@ -35,6 +36,7 @@ public class GameServer : MonoBehaviourPun
             Instance = this;
             if (PhotonNetwork.IsMasterClient)
             {
+                loggedPlayers = new List<Player>();
                 _scoreDic = new Dictionary<Player, int>();
                 Player currentClient = PhotonNetwork.LocalPlayer;
                 photonView.RPC("SetServer", RpcTarget.AllBuffered, currentClient);
@@ -216,6 +218,29 @@ public class GameServer : MonoBehaviourPun
         //Si tengo los jugadores necesarios, y el juego no comenzo, comienzo el juego
         //if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart == false)
         //    photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
+    }
+
+
+    public void AddPlayerAndCheckGameForStart(Player p)
+    {
+        loggedPlayers.Add(p);
+        if (loggedPlayers.Count >= playersNeeded && gameStart == false && !_corutineAlreadyCalled)
+        {
+            StartCoroutine(WaitSecondToStartGame());
+            _corutineAlreadyCalled = true;
+        }
+    }
+
+    IEnumerator WaitSecondToStartGame()
+    {
+        yield return new WaitForSeconds(10);
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player == Server) continue;
+
+            if (!loggedPlayers.Contains(player)) PhotonNetwork.CloseConnection(player);
+        }
+        photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
     }
     #endregion
 
