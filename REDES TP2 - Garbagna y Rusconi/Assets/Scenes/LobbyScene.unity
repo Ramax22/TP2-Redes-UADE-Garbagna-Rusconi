@@ -154,6 +154,7 @@ MonoBehaviour:
   gameStart: 0
   _matchMaxTime: 60
   prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab
+  _loggedUsernames: []
 --- !u!4 &298687762
 Transform:
   m_ObjectHideFlags: 0
@@ -470,6 +471,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339969208864331117, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081639446313512044, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000012219
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081639446313512044, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 327.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081639446313512044, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956538695893385734, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_Text
+      value: "WAITING FOR \nPLAYERS..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956538695893385734, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 193788be0f60632499d177ef02910490, type: 3}

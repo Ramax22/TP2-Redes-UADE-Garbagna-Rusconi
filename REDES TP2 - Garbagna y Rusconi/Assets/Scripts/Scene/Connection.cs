@@ -54,10 +54,9 @@ public class Connection : MonoBehaviourPunCallbacks
 
     public void ResponseFindUser(string user, string response, Player p)
     {
-        if (response == "Server/Success")
-        {
-            GameServer.Instance.AddPlayerAndCheckGameForStart(p);
-        }
+        if (GameServer.Instance.CheckIfPlayerAlreadyLogged(user)) response = "User already logged";
+
+        if (response == "Server/Success") { GameServer.Instance.AddPlayerAndCheckGameForStart(p, user); }
 
         photonView.RPC("RecibeResponseFindUser", p, response, user);
     }

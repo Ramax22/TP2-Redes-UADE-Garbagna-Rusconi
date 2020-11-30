@@ -23,8 +23,11 @@ public class GameServer : MonoBehaviourPun
     bool _corutineAlreadyCalled = false;
 
     public List<Player> loggedPlayers;
+    public List<string> _loggedUsernames;
+
     private void Awake()
     {
+        _loggedUsernames = new List<string>();
         DontDestroyOnLoad(this.gameObject);
         if (playersNeeded == 0) playersNeeded = 4;
     }
@@ -210,25 +213,22 @@ public class GameServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    void PlayerConnected(Player p)
-    {
-        _scoreDic.Add(p, 0); //Agrego al diccionario del server al jugador y sus kills
+    void PlayerConnected(Player p) { _scoreDic.Add(p, 0); } //Agrego al diccionario del server al jugador y sus kills 
 
-
-        //Si tengo los jugadores necesarios, y el juego no comenzo, comienzo el juego
-        //if (PhotonNetwork.CurrentRoom.PlayerCount - 1 >= playersNeeded && gameStart == false)
-        //    photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
-    }
-
-
-    public void AddPlayerAndCheckGameForStart(Player p)
+    public void AddPlayerAndCheckGameForStart(Player p, string username)
     {
         loggedPlayers.Add(p);
+        _loggedUsernames.Add(username);
         if (loggedPlayers.Count >= playersNeeded && gameStart == false && !_corutineAlreadyCalled)
         {
             StartCoroutine(WaitSecondToStartGame());
             _corutineAlreadyCalled = true;
         }
+    }
+
+    public bool CheckIfPlayerAlreadyLogged(string user)
+    {
+        return _loggedUsernames.Contains(user);
     }
 
     IEnumerator WaitSecondToStartGame()
@@ -262,14 +262,6 @@ public class GameServer : MonoBehaviourPun
         Player currentClient = PhotonNetwork.LocalPlayer;
         if (_server != currentClient) photonView.RPC("PlayerConnected", _server, currentClient);
     }
-
-    /*[PunRPC] ACA PADRE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    void PlayerLogged(Player p)
-    {
-        loggedPlayers.Add(p);
-        if (loggedPlayers.Count - 1 >= playersNeeded && gameStart == false)
-            photonView.RPC("InitializeGame", RpcTarget.AllBuffered);
-    }*/
 
     //Funcion que controla la duración de la partida
     void MatchDuration()

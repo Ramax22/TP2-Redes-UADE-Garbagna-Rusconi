@@ -166,8 +166,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     //Funcion para mandar el request al login y trabajar con el response
     IEnumerator LogInRequest(string username, string password, Player p, Connection conn)
     {
-        
-
         //Creo el formulario
         WWWForm form = new WWWForm();
         form.AddField("username", username);

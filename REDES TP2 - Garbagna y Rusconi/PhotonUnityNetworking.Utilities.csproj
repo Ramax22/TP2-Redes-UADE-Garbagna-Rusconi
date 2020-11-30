@@ -93,10 +93,10 @@
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\UI\TextToggleIsOnTransition.cs" />
     <None Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\PhotonUnityNetworking.Utilities.asmdef" />
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -288,10 +288,10 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

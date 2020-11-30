@@ -27,6 +27,8 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
+    PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonHandler
@@ -586,7 +588,7 @@ ScriptsOnlyBuild:
     className: ChatGui
   - hash:
       serializedVersion: 2
-      Hash: 10e7bc9dfafb6dbb2d537839318353b6
+      Hash: a81b5168006dd69d244805e6d7a55cb2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameServer
@@ -2001,5 +2003,5 @@ ScriptsOnlyBuild:
   - Assets/Scenes/GameScene.unity
   - Assets/Scenes/ResultScene.unity
   - Assets/Scenes/LoginScene.unity
-  playerPath: C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
+  playerPath: C:/Users/ramag/Documents/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
     TP2 - Garbagna y Rusconi.exe
