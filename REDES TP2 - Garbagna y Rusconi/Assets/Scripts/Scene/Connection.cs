@@ -33,10 +33,8 @@ public class Connection : MonoBehaviourPunCallbacks
     [PunRPC]
     void RecibeResponseCreateUser(string response)
     {
-        if (response.Contains("Success"))
-            Debug.LogError("REGISTER OK - " + response);
-        else
-            Debug.LogError("REGISTER FAILS - " + response);
+        if (!response.Contains("Success"))
+            _menuManager.EventTextRegisterScreen.text = "ERROR: " + response;
     }
     #endregion
 
@@ -69,7 +67,7 @@ public class Connection : MonoBehaviourPunCallbacks
             _menuManager.ChangeToloadingScreen();
             PhotonNetwork.LocalPlayer.NickName = user;
         }
-        else Debug.LogError("LOGIN FAILED - " + response);
+        else _menuManager.EventTextLoginScreen.text = "ERROR: " + response;
     }
     #endregion
 }

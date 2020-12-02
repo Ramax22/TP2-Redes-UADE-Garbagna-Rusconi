@@ -22,11 +22,13 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     [Header("Login Screen Objects")]
     [SerializeField] InputField _usernameFieldLoginScreen;
     [SerializeField] InputField _passwordFieldLoginScreen;
+    [SerializeField] Text _eventTextLoginScreen;
 
     //Objetos de la pantalla Register
     [Header("Register Screen Objects")]
     [SerializeField] InputField _usernameFieldRegisterScreen;
     [SerializeField] InputField _passwordFieldRegisterScreen;
+    [SerializeField] Text _eventTextRegisterScreen;
 
     //Variables
     string _urlCreateUser;
@@ -34,6 +36,10 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     bool _isLogged;
     string _conn = "Prefabs/Connection";
     Connection _connObj;
+
+    //Encapsulados
+    public Text EventTextLoginScreen { get { return _eventTextLoginScreen; } }
+    public Text EventTextRegisterScreen { get { return _eventTextRegisterScreen; } }
 
     private void Awake()
     {
