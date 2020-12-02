@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] int initialAmmo;
     [SerializeField] GameObject _myCamera;
     [SerializeField] bool _quadDamage;
+    [SerializeField] GameObject aimingPoint;
 
     bool isDead;
     CharacterController cc;
@@ -67,6 +68,7 @@ public class PlayerScript : MonoBehaviourPun
             horizontalRotation = Input.GetAxisRaw("Mouse X");
             verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
             transform.Rotate(new Vector3(0, horizontalRotation, 0));
+
 
             //SHOOT
             if (Input.GetButtonDown("Fire1"))
@@ -182,5 +184,11 @@ public class PlayerScript : MonoBehaviourPun
         _quadDamage = false;
         HUDManager.Instance.DisableQuad();
     }
+    #endregion
+
+    #region ~~~ MOVEMENT FUNCTIONS ~~~
+
+
+
     #endregion
 }
