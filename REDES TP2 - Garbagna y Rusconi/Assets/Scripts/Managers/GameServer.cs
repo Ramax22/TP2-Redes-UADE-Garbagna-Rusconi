@@ -283,6 +283,33 @@ public class GameServer : MonoBehaviourPun
     }
     #endregion
 
+    #region ~~~ MOVEMENT REQUEST ~~~
+
+    [PunRPC]
+    public void RequestMovement(Player client, Vector3 mov)
+    {
+        if(_dic[client])
+        _dic[client].Move(mov);
+    }
+
+    [PunRPC]
+    public void RequestShoot(Player client)
+    {
+        if (_dic[client])
+            _dic[client].Shoot();
+    }
+
+    [PunRPC]
+    public void RequestAim(Player client, float vertical, float horizontal)
+    {
+        if (_dic[client])
+            _dic[client].Aim(vertical, horizontal);
+    }
+
+    #endregion
+
     public bool GameStart { get => gameStart; }
     public Player Server { get => _server; }
+    public Dictionary<Player, PlayerScript> Dic { get => _dic; set => _dic = value; }
+    public Dictionary<PlayerScript, Player> DicInverse { get => _dicInverse; set => _dicInverse = value; }
 }

@@ -20,11 +20,11 @@ public class PlayerScript : MonoBehaviourPun
     Vector3 movement;
     Vector3 mousePosition;
     int ammoCount; 
-    float horizontalRotation = 0;
-    float verticalRotation = 0;
-    float verticalRotationLimit = 80f;
     Health hp;
     Player _lastHitBy;
+
+
+    public CharacterController Cc { get => cc; set => cc = value; }
 
     private void Start()
     {
@@ -55,34 +55,14 @@ public class PlayerScript : MonoBehaviourPun
 
         if (!isDead)
         {
-            //MOVEMENT & CAMERA
-            var h = Input.GetAxis("Horizontal") * transform.right;
-            var v = Input.GetAxis("Vertical") * transform.forward;
-            movement = (h + v) * Time.deltaTime * speed;
-            cc.Move(movement);
+            //cc.Move(movement);
             if (!cc.isGrounded)
             {
-                cc.Move(new Vector3(0, -9.8f, 0) * Time.deltaTime);
-            }
-            verticalRotation -= Input.GetAxisRaw("Mouse Y");
-            horizontalRotation = Input.GetAxisRaw("Mouse X");
-            verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
-            transform.Rotate(new Vector3(0, horizontalRotation, 0));
-
-
-            //SHOOT
-            if (Input.GetButtonDown("Fire1"))
-            {
-                if(Cursor.lockState==CursorLockMode.None)
-                Cursor.lockState = CursorLockMode.Locked;
-
-                Shoot();
+                //movement.y -= 9.8f * Time.deltaTime * speed;
+                //cc.Move(new Vector3(0, -9.8f, 0) * Time.deltaTime);
             }
 
-            if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
+            
         }
     }
 
@@ -134,7 +114,7 @@ public class PlayerScript : MonoBehaviourPun
 
     #region ~~~ WEAPONS FUNCTIONS ~~~
     
-    void Shoot()
+    public void Shoot()
     {
         if (ammoCount > 0)
         {
@@ -188,7 +168,17 @@ public class PlayerScript : MonoBehaviourPun
 
     #region ~~~ MOVEMENT FUNCTIONS ~~~
 
+    public void Move(Vector3 mov)
+    {
+        mov *= speed;
+        cc.Move(mov);
+    }
 
+    public void Aim(float vertical, float horizontal)
+    {
+        transform.Rotate(new Vector3(0, horizontal, 0));
+        aimingPoint.transform.Rotate(new Vector3(vertical, 0, 0));
+    }
 
     #endregion
 }
