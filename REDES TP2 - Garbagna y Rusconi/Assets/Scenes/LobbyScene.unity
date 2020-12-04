@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersNeeded: 1
   gameStart: 0
-  _matchMaxTime: 60
+  _matchMaxTime: 5000
   prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab
   _loggedUsernames: []
 --- !u!4 &298687762
@@ -462,16 +462,6 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5805289197106383774, guid: 193788be0f60632499d177ef02910490,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RequestFindUser
-      objectReference: {fileID: 0}
-    - target: {fileID: 5805289195849293655, guid: 193788be0f60632499d177ef02910490,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8339969208864331117, guid: 193788be0f60632499d177ef02910490,
         type: 3}
       propertyPath: m_IsActive
@@ -492,15 +482,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3956538695893385734, guid: 193788be0f60632499d177ef02910490,
+    - target: {fileID: 5805289195849293655, guid: 193788be0f60632499d177ef02910490,
         type: 3}
-      propertyPath: m_Text
-      value: "WAITING FOR \nPLAYERS..."
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956538695893385734, guid: 193788be0f60632499d177ef02910490,
-        type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 4
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5805289196156602881, guid: 193788be0f60632499d177ef02910490,
         type: 3}
@@ -512,6 +497,16 @@ PrefabInstance:
       propertyPath: _eventTextRegisterScreen
       value: 
       objectReference: {fileID: 1483947370}
+    - target: {fileID: 3956538695893385734, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_Text
+      value: "WAITING FOR \nPLAYERS..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956538695893385734, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5805289196983938845, guid: 193788be0f60632499d177ef02910490,
         type: 3}
       propertyPath: m_Text
@@ -536,6 +531,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_FontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5805289197106383774, guid: 193788be0f60632499d177ef02910490,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RequestFindUser
       objectReference: {fileID: 0}
     - target: {fileID: 5805289197250129721, guid: 193788be0f60632499d177ef02910490,
         type: 3}

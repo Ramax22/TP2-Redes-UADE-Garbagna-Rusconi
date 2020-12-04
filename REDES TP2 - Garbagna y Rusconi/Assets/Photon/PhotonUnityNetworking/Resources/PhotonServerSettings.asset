@@ -70,6 +70,8 @@ MonoBehaviour:
   - RequestShoot
   - RequestAim
   - ActivateCamera
+  - CheckCamera
+  - SetSpawned
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -7,6 +7,7 @@ ScriptsOnlyBuild:
     - ElevatorManager
     - GameServer
     - HUDManager
+    - InputManager
     - MainMenuManager
     - MicManager
     - MicSelect
@@ -27,8 +28,6 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonHandler
@@ -137,6 +136,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 10930}
     - Class: 114
       Script: {instanceID: 11070}
+    - Class: 114
+      Script: {instanceID: 11202}
     - Class: 114
       Script: {instanceID: 11292}
     - Class: 114
@@ -1986,7 +1987,7 @@ ScriptsOnlyBuild:
     className: CountOfRoomsProperty
   - hash:
       serializedVersion: 2
-      Hash: 79dc590fa527f31e9e3570f9a921bf10
+      Hash: 14a2ea864334d126b5891ad688b88102
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerScript
@@ -2009,5 +2010,5 @@ ScriptsOnlyBuild:
   - Assets/Scenes/GameScene.unity
   - Assets/Scenes/ResultScene.unity
   - Assets/Scenes/LoginScene.unity
-  playerPath: C:/Users/ramag/Documents/UADE/Redes/FINAL/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
+  playerPath: C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
     TP2 - Garbagna y Rusconi.exe

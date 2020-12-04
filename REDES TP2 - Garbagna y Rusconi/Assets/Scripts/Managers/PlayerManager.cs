@@ -10,6 +10,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] GameObject playerPrefab;
     [SerializeField] bool spawned = false;
 
+    public bool Spawned { get => spawned; set => spawned = value; }
+
     private void Start()
     {
         if(PhotonNetwork.LocalPlayer != GameServer.Instance.Server)

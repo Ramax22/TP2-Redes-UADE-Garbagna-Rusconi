@@ -14,10 +14,9 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] GameObject _myCamera;
     [SerializeField] bool _quadDamage;
     [SerializeField] GameObject aimingPoint;
-
+    [SerializeField] Vector3 movement;
     bool isDead;
     CharacterController cc;
-    Vector3 movement;
     Vector3 mousePosition;
     int ammoCount; 
     Health hp;
@@ -26,8 +25,13 @@ public class PlayerScript : MonoBehaviourPun
 
     public CharacterController Cc { get => cc; set => cc = value; }
 
+    
+
     private void Start()
     {
+        //GameServer.Instance.photonView.RPC("CheckCamera", GameServer.Instance.Server, this, PhotonNetwork.LocalPlayer);
+        
+
         cc = GetComponent<CharacterController>();
 
         hp = new Health(initialhealth, Die);
@@ -171,13 +175,15 @@ public class PlayerScript : MonoBehaviourPun
     public void Move(Vector3 mov)
     {
         mov *= speed;
-        cc.Move(mov);
+        //cc.Move(mov);
+        transform.Translate(mov);
     }
 
     #endregion
 
     #region ~~~ CAMERA FUNCTIONS ~~~
 
+    [PunRPC]
     public void ActivateCamera()
     {
         _myCamera.SetActive(true);
@@ -186,7 +192,17 @@ public class PlayerScript : MonoBehaviourPun
     public void Aim(float vertical, float horizontal)
     {
         transform.Rotate(new Vector3(0, horizontal, 0));
-        aimingPoint.transform.Rotate(new Vector3(vertical, 0, 0));
+        //aimingPoint.transform.Rotate(new Vector3(vertical, 0, 0));
+    }
+
+    #endregion
+
+    #region ~~~ ETC FUNCTIONS ~~~
+
+    [PunRPC]
+    public void SetSpawned()
+    {
+        PlayerManager.Instance.Spawned = true;
     }
 
     #endregion

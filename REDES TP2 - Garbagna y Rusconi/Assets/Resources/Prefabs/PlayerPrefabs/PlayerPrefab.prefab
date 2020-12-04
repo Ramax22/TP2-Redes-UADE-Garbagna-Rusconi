@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5202979827740194386}
+  - component: {fileID: 1101505704884260853}
+  - component: {fileID: 8618799276790190816}
   m_Layer: 8
   m_Name: AimingPoint
   m_TagString: Untagged
@@ -32,6 +34,44 @@ Transform:
   m_Father: {fileID: 5880785673523557514}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1101505704884260853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628777249376375100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 8618799276790190816}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &8618799276790190816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628777249376375100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!114 &580229662914074412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +406,7 @@ MonoBehaviour:
   _myCamera: {fileID: 5886326598151934621}
   _quadDamage: 0
   aimingPoint: {fileID: 628777249376375100}
+  movement: {x: 0, y: 0, z: 0}
 --- !u!114 &8993049462200461678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +600,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ToonSoldier_demo Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330895423159032654, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1330895423158732590, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
         type: 3}

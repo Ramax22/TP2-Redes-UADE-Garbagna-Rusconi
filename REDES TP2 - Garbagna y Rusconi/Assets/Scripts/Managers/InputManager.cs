@@ -12,6 +12,11 @@ public class InputManager : MonoBehaviour
     float verticalRotation = 0;
     float verticalRotationLimit = 80f;
 
+    void Awake()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            Destroy(this.gameObject);
+    }
     void Start()
     {
         StartCoroutine(Wait());
@@ -19,38 +24,39 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if(_canWalk)
-        { 
-            var h = Input.GetAxis("Horizontal") * transform.right;
-            var v = Input.GetAxis("Vertical") * transform.forward;
-
-            movement = (h + v) * Time.deltaTime;
-
-            if (movement != new Vector3(0, 0, 0))
+        if (PlayerManager.Instance.Spawned)
+        {
+            if (_canWalk)
             {
-                GameServer.Instance.photonView.RPC("RequestMovement", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, movement);
+                var h = Input.GetAxis("Horizontal");
+                var v = Input.GetAxis("Vertical");
+
+                movement = new Vector3(h,0,v) * Time.deltaTime;
+
+                if (movement != new Vector3(0, 0, 0))
+                {
+                    GameServer.Instance.photonView.RPC("RequestMovement", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, movement);
+                }
+
+                verticalRotation -= Input.GetAxisRaw("Mouse Y");
+                horizontalRotation = Input.GetAxisRaw("Mouse X");
+                verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
+                GameServer.Instance.photonView.RPC("RequestAim", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, verticalRotation, horizontalRotation);
+            }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (Cursor.lockState == CursorLockMode.None)
+                    Cursor.lockState = CursorLockMode.Locked;
+
+                GameServer.Instance.photonView.RPC("RequestShoot", GameServer.Instance.Server, PhotonNetwork.LocalPlayer);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
             }
         }
-
-        verticalRotation -= Input.GetAxisRaw("Mouse Y");
-        horizontalRotation = Input.GetAxisRaw("Mouse X");
-        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
-        GameServer.Instance.photonView.RPC("RequestAim", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, verticalRotation, horizontalRotation);
-
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (Cursor.lockState == CursorLockMode.None)
-                Cursor.lockState = CursorLockMode.Locked;
-
-            GameServer.Instance.photonView.RPC("RequestShoot", GameServer.Instance.Server, PhotonNetwork.LocalPlayer);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-
     }
 
     IEnumerator Wait()

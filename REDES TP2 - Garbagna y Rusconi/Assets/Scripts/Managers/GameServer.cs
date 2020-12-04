@@ -209,7 +209,8 @@ public class GameServer : MonoBehaviourPun
                 _dic[client] = playerS; //aca guarda al cliente y su script player de su gameobject
                 _dicInverse[playerS] = client; //aca lo mismo pero al revez
             }
-            photonView.RPC("ActivateCamera", client, playerS);
+            playerS.photonView.RPC("SetSpawned", client);
+            playerS.photonView.RPC("ActivateCamera", client);
         }
     }
 
@@ -316,6 +317,17 @@ public class GameServer : MonoBehaviourPun
     {
         p.ActivateCamera();
     }
+
+    [PunRPC]
+    public void CheckCamera(PlayerScript script, Player client)
+    {
+        if(_dic[client] == script)
+        {
+            script.photonView.RPC("ActivateCamera", client);
+        }
+    }
+
+    
 
     #endregion
 
