@@ -32,10 +32,10 @@ public class PlayerScript : MonoBehaviourPun
 
         hp = new Health(initialhealth, Die);
 
-        if (!photonView.IsMine)
+        /*if (!photonView.IsMine)
         {
             _myCamera.SetActive(false);
-        }
+        }*/
 
         isDead = false;
 
@@ -172,6 +172,15 @@ public class PlayerScript : MonoBehaviourPun
     {
         mov *= speed;
         cc.Move(mov);
+    }
+
+    #endregion
+
+    #region ~~~ CAMERA FUNCTIONS ~~~
+
+    public void ActivateCamera()
+    {
+        _myCamera.SetActive(true);
     }
 
     public void Aim(float vertical, float horizontal)

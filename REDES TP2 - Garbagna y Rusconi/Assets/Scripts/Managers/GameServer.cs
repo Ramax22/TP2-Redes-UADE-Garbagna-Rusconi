@@ -202,13 +202,14 @@ public class GameServer : MonoBehaviourPun
             SpawnsManager.Instance.Counter++;
 
             GameObject obj = PhotonNetwork.Instantiate(prefabAdress, spawnPos.transform.position, spawnPos.transform.rotation);
-            obj.GetPhotonView().TransferOwnership(client);
+            //obj.GetPhotonView().TransferOwnership(client);
             PlayerScript playerS = obj.GetComponent<PlayerScript>();
             if (playerS)
             {
                 _dic[client] = playerS; //aca guarda al cliente y su script player de su gameobject
                 _dicInverse[playerS] = client; //aca lo mismo pero al revez
             }
+            photonView.RPC("ActivateCamera", client, playerS);
         }
     }
 
@@ -304,6 +305,16 @@ public class GameServer : MonoBehaviourPun
     {
         if (_dic[client])
             _dic[client].Aim(vertical, horizontal);
+    }
+
+    #endregion
+
+    #region ~~~ CAMERA REQUEST ~~~
+
+    [PunRPC]
+    public void ActivateCamera(PlayerScript p)
+    {
+        p.ActivateCamera();
     }
 
     #endregion
