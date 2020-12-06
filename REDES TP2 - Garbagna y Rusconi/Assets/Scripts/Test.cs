@@ -22,7 +22,7 @@ public class Test : MonoBehaviour
         StartCoroutine(WaitToSyncRot()); //Pos 2
         //updateRot = true; // Pos 2
 
-        originalPos = Mathf.RoundToInt(transform.localEulerAngles.y);
+        originalPos = Mathf.RoundToInt(transform.localEulerAngles.y); //Pos 3
     }
 
     // Update is called once per frame
@@ -60,12 +60,12 @@ public class Test : MonoBehaviour
         }*/
 
         // ~~~~~~~ POSIBILIDAD 2 ~~~~~~~
-        var rotation = Input.GetAxis("Mouse X") * 75f * Time.deltaTime;
+        var rotation = Input.GetAxis("Mouse X") * 2f;
         transform.Rotate(0f, rotation, 0f);
 
         var actualRot = Mathf.RoundToInt(transform.localEulerAngles.y);
 
-        float diff = 3;
+        float diff = 2;
 
         value = transform.localEulerAngles.y;
 
@@ -75,7 +75,7 @@ public class Test : MonoBehaviour
 
         if (actualRot < negativeDiff || actualRot > positiveDiff && updateRot)
         {
-            controlled.transform.localEulerAngles = transform.localEulerAngles;
+            controlled.transform.rotation = transform.rotation;
             originalPos = actualRot;
             updateRot = false;
             StartCoroutine(WaitToSyncRot());
@@ -84,7 +84,7 @@ public class Test : MonoBehaviour
 
     IEnumerator WaitToSyncRot()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(0.1f);
         updateRot = true;
     }
 }

@@ -211,6 +211,7 @@ public class GameServer : MonoBehaviourPun
             }
             playerS.photonView.RPC("SetSpawned", client);
             playerS.photonView.RPC("ActivateCamera", client);
+            playerS.photonView.RPC("InitialConfig", client);
         }
     }
 
@@ -286,14 +287,6 @@ public class GameServer : MonoBehaviourPun
     #endregion
 
     #region ~~~ MOVEMENT REQUEST ~~~
-
-    [PunRPC] //OLD
-    public void RequestMovement(Player client, Vector3 mov)
-    {
-        if(_dic[client])
-            _dic[client].Move(mov);
-    }
-    
     [PunRPC]
     void RequestInputPress(Player client, string input)
     {

@@ -35,33 +35,26 @@ public class PlayerScript : MonoBehaviourPun
     const string _moveLeft = "left";
     const string _moveRight = "right";
 
-
-
     private void Start()
     {
-        //GameServer.Instance.photonView.RPC("CheckCamera", GameServer.Instance.Server, this, PhotonNetwork.LocalPlayer);
-
         //Esto es para que el input manager este como "mirando" hacia el mismo lugar, y no se rompa la rotación
-        if (!PhotonNetwork.IsMasterClient) GameObject.Find("InputManager").transform.localEulerAngles = transform.localEulerAngles;
+        if (!PhotonNetwork.IsMasterClient) 
+        { 
+            GameObject.Find("InputManager").transform.localEulerAngles = transform.localEulerAngles; 
+        }
 
         cc = GetComponent<CharacterController>();
 
         hp = new Health(initialhealth, Die);
 
-        /*if (!photonView.IsMine)
-        {
-            _myCamera.SetActive(false);
-        }*/
-
         isDead = false;
 
         if (photonView.IsMine)
         {
-            ammoCount = initialAmmo;
-            HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
-            HUDManager.Instance.ChangeAmmoText(ammoCount);
-            HUDManager.Instance.ChangeKillsText(0);
-            //Cursor.lockState = CursorLockMode.Locked;
+            //ammoCount = initialAmmo;
+            //HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
+            //HUDManager.Instance.ChangeAmmoText(ammoCount);
+            //HUDManager.Instance.ChangeKillsText(0);
 
             _moveInstructions = new Dictionary<string, bool>();
             _moveInstructions.Add(_moveForward, false);
@@ -75,19 +68,7 @@ public class PlayerScript : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        Move2();
-
-        //if (!isDead)
-        //{
-
-        //    transform.Translate(movement);
-        //    //cc.Move(movement);
-        //    //if (!cc.isGrounded)
-        //    //{
-        //    //    //movement.y -= 9.8f * Time.deltaTime * speed;
-        //    //    //cc.Move(new Vector3(0, -9.8f, 0) * Time.deltaTime);
-        //    //}
-        //}
+        MoveEntity();
     }
 
     #region ~~~ HP FUNCTIONS ~~~
@@ -192,25 +173,24 @@ public class PlayerScript : MonoBehaviourPun
 
     #region ~~~ MOVEMENT FUNCTIONS ~~~
 
-    public void Move(Vector3 mov)
+    // Funcion que actualiza el movimiento del jugador
+    void MoveEntity()
     {
-        mov *= speed;
-        cc.Move(mov);
-        //transform.Translate(mov);
-    }
-
-    void Move2()
-    {
+        //Creo un nuevo vector
         Vector3 moveVector = new Vector3();
 
+        //Agrego el movimiento vertical
         if (_moveInstructions[_moveForward]) moveVector += transform.forward;
         else if (_moveInstructions[_moveBackward]) moveVector += -transform.forward;
 
+        //Agrego el movimiento horizontal
         if (_moveInstructions[_moveLeft]) moveVector += -transform.right;
         else if (_moveInstructions[_moveRight]) moveVector += transform.right;
 
-        
+        //Agrego la gravedad
+        if (!cc.isGrounded) moveVector += new Vector3(0f, -8f, 0f);
 
+        //Aplico el vector de movimiento
         var aux = moveVector.normalized * speed * Time.deltaTime;
         cc.Move(aux);
     }
@@ -221,20 +201,6 @@ public class PlayerScript : MonoBehaviourPun
         if (input.Contains(_moveBackward)) _moveInstructions[_moveBackward] = true;
         if (input.Contains(_moveLeft)) _moveInstructions[_moveLeft] = true;
         if (input.Contains(_moveRight)) _moveInstructions[_moveRight] = true;
-
-        /*
-        if (verMove == "up") movement += transform.forward;
-        else if (verMove == "down") movement += -transform.forward;
-
-        if (horMove == "left") movement += -transform.right;
-        else if (horMove == "right") movement += transform.right;
-
-        if (verMove == "up") movement += Vector3.forward;
-        else if (verMove == "down") movement += Vector3.back;
-
-        if (horMove == "left") movement += Vector3.left;
-        else if (horMove == "right") movement += Vector3.right;
-        */
     }
     public void AuthoritiveMoveRelease(string input)
     {
@@ -242,9 +208,6 @@ public class PlayerScript : MonoBehaviourPun
         else if (input.Contains(_moveBackward)) _moveInstructions[_moveBackward] = false;
         else if (input.Contains(_moveLeft)) _moveInstructions[_moveLeft] = false;
         else _moveInstructions[_moveRight] = false;
-
-        /*if (verMove == "up" || verMove == "down") movement.z = 0;
-        else if (horMove == "left" || horMove == "right") movement.x = 0;*/
     }
 
     #endregion
@@ -263,18 +226,28 @@ public class PlayerScript : MonoBehaviourPun
         newEulerRot.y = rot;
 
         transform.localEulerAngles = newEulerRot;
-        //aimingPoint.transform.Rotate(new Vector3(vertical, 0, 0));
     }
 
     #endregion
 
     #region ~~~ ETC FUNCTIONS ~~~
-
     [PunRPC]
     public void SetSpawned()
     {
         PlayerManager.Instance.Spawned = true;
     }
 
+    [PunRPC]
+    void InitialConfig()
+    {
+        PlayerManager.Instance.Spawned = true;
+
+        _myCamera.SetActive(true);
+
+        ammoCount = initialAmmo;
+        HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
+        HUDManager.Instance.ChangeAmmoText(ammoCount);
+        HUDManager.Instance.ChangeKillsText(0);
+    }
     #endregion
 }

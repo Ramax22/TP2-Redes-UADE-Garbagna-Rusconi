@@ -5,17 +5,15 @@ using Photon.Pun;
 
 public class InputManager : MonoBehaviour
 {
-    Vector3 movement;
-    
-    float horizontalRotation = 0;
-    float verticalRotation = 0;
-    float verticalRotationLimit = 80f;
+    //general vars
+    bool _canSendInfo;
 
     //movement vars
     const string _moveForward = "up";
     const string _moveBackward = "down";
     const string _moveLeft = "left";
     const string _moveRight = "right";
+
     const string _pressAction = "press";
     const string _releaseAction = "release";
 
@@ -24,12 +22,11 @@ public class InputManager : MonoBehaviour
     bool horizontalMovement, verticalMovement;
     List<string> _inputList = new List<string>();
 
-    bool _canSendInfo;
-
 
     //rotation vars
     const float diff = 2;
-    const float _mouseSensitivity = 75f;
+    const float _mouseSensitivity = 2f;
+    bool updateRot;
 
     float originalPos;
 
@@ -46,22 +43,35 @@ public class InputManager : MonoBehaviour
 
         originalPos = Mathf.RoundToInt(transform.localEulerAngles.y);
         StartCoroutine(Wait());
+        StartCoroutine(WaitToSyncRot());
         _canSendInfo = true;
+        updateRot = true;
     }
 
     void Update()
     {
         if (PlayerManager.Instance.Spawned)
         {
+
+            if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
+
+            if (Input.GetButtonDown("Fire")) RequestShoot();
+
             ManageMovementInput();
             ManageCameraInput();
+            SendInput();
         }
+    }
+
+    void RequestShoot()
+    {
+        //auxilio
     }
 
     void ManageCameraInput()
     {
         // Muevo el objeto que uso para hacer los calculos localmente (osea este)
-        var rotation = Input.GetAxis("Mouse X") * _mouseSensitivity * Time.deltaTime;
+        var rotation = Input.GetAxis("Mouse X") * _mouseSensitivity;
         transform.Rotate(0f, rotation, 0f);
 
         // Agarro la rotacion acutal (en grados)
@@ -72,55 +82,17 @@ public class InputManager : MonoBehaviour
         float positiveDiff = originalPos + diff; // Positivo
 
 
-        if (actualRot < negativeDiff || actualRot > positiveDiff)
+        if (actualRot < negativeDiff || actualRot > positiveDiff && updateRot)
         {
             //controlled.transform.localEulerAngles = transform.localEulerAngles;
             GameServer.Instance.photonView.RPC("RequestAim", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, transform.localEulerAngles.y);
             originalPos = actualRot;
-            //updateRot = false;
-            //StartCoroutine(WaitToSyncRot());
+            updateRot = false;
         }
-
-
-
-        /*
-        var diff = yRot_new - yRot_past;
-        Debug.Log(diff);
-        if (diff > _minValueToRotate / 2 || diff < -1 * _minValueToRotate / 2)
-        {
-            GameServer.Instance.photonView.RPC("RequestAim", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, diff);
-            yRot_past = yRot_new;
-        }
-        */
     }
 
     void ManageMovementInput()
     {
-        /*
-        // Vertical Movement
-        if (Input.GetKeyDown(KeyCode.W))
-            GameServer.Instance.photonView.RPC("RequestInputPress", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, _moveForward, "");
-        else if (Input.GetKeyUp(KeyCode.W))
-            GameServer.Instance.photonView.RPC("RequestInputRelease", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, _moveForward, "");
-
-        if (Input.GetKeyDown(KeyCode.S))
-            GameServer.Instance.photonView.RPC("RequestInputPress", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, _moveBackward, "");
-        else if (Input.GetKeyUp(KeyCode.S))
-            GameServer.Instance.photonView.RPC("RequestInputRelease", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, _moveBackward, "");
-
-        // Horizontal Movement
-        if (Input.GetKeyDown(KeyCode.A))
-            GameServer.Instance.photonView.RPC("RequestInputPress", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, "", _moveLeft);
-        else if (Input.GetKeyUp(KeyCode.A))
-            GameServer.Instance.photonView.RPC("RequestInputRelease", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, "", _moveLeft);
-
-        if (Input.GetKeyDown(KeyCode.D))
-            GameServer.Instance.photonView.RPC("RequestInputPress", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, "", _moveRight);
-        else if (Input.GetKeyUp(KeyCode.D))
-            GameServer.Instance.photonView.RPC("RequestInputRelease", GameServer.Instance.Server, PhotonNetwork.LocalPlayer, "", _moveRight);
-        */
-
-
         // Vertical Movement
         if (Input.GetKeyDown(KeyCode.W) && !verticalMovement)
         {
@@ -144,9 +116,6 @@ public class InputManager : MonoBehaviour
             verticalMovement = false;
         }
 
-
-        // horizontalMovement
-
         // Horizontal Movement
         if (Input.GetKeyDown(KeyCode.A) && !horizontalMovement)
         {
@@ -169,8 +138,6 @@ public class InputManager : MonoBehaviour
             _inputList.Add(_moveRight + "-" + _releaseAction); //right-release
             horizontalMovement = false;
         }
-
-        SendInput();
     }
 
     void SendInput()
@@ -202,6 +169,14 @@ public class InputManager : MonoBehaviour
         while (true)
         {
             _canSendInfo = true;
+            yield return new WaitForSeconds(_timeToSendInfo);
+        }
+    }
+    IEnumerator WaitToSyncRot()
+    {
+        while (true)
+        {
+            updateRot = true;
             yield return new WaitForSeconds(_timeToSendInfo);
         }
     }
