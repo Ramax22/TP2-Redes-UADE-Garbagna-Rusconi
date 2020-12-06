@@ -63,39 +63,43 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Photon\PhotonVoice\Demos\DemoVoicePun\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
+    <Compile Include="Assets\Photon\Simple\Components\Editor\SyncAnimatorEditor.cs" />
+    <Compile Include="Assets\Photon\Simple\Components\Editor\SyncTransformEditor.cs" />
+    <Compile Include="Assets\Photon\Simple\Components\Editor\SyncVitalsEditor.cs" />
+    <Compile Include="Assets\Photon\Simple\Example\Assistants\Editor\TutorialAssists.cs" />
+    <Compile Include="Assets\Photon\Simple\Utilities\GUITools\Editor\GUIColorBoxes.cs" />
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -287,13 +291,25 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ByteConverter">
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonUtilities/Compression/plugins/ByteConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="FloatCrusher">
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonUtilities/TransformCrusher/plugins/FloatCrusher.dll</HintPath>
+    </Reference>
+    <Reference Include="HalFloat">
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonUtilities/TransformCrusher/plugins/HalFloat.dll</HintPath>
+    </Reference>
+    <Reference Include="QuatCompress">
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Assets/Photon/PhotonUtilities/TransformCrusher/plugins/QuatCompress.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Users/ramag/Desktop/UADE/Redes/TP2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/REDES TP2 - Garbagna y Rusconi/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -667,6 +683,10 @@
       <Project>{8E4F22B1-DE72-0916-F7D2-E8702A51A9B0}</Project>
       <Name>PunDemos.DemoSlotcarEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="PhotonVoice.API.csproj">
+      <Project>{1CF9E16B-2C3B-B328-5398-43DF6535AF17}</Project>
+      <Name>PhotonVoice.API</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Demos.csproj">
       <Project>{C549F54E-EF24-604A-CF8D-7FA5FED6FA7C}</Project>
       <Name>PhotonUnityNetworking.Demos</Name>
@@ -674,6 +694,18 @@
     <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
       <Project>{10D103DB-8EB7-DE50-4BFA-B4C5D7861955}</Project>
       <Name>PhotonUnityNetworking.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonVoice.Editor.csproj">
+      <Project>{A0883EE5-F854-112A-91B2-D831045DCBC7}</Project>
+      <Name>PhotonVoice.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonVoice.PUN.csproj">
+      <Project>{F2E094DC-52BE-0FE2-5764-C4D76D8DE9F1}</Project>
+      <Name>PhotonVoice.PUN</Name>
+    </ProjectReference>
+    <ProjectReference Include="EmoCompressUtilsASMDEF.csproj">
+      <Project>{1022A385-A2AB-700E-E1B9-AE666CE50E7D}</Project>
+      <Name>EmoCompressUtilsASMDEF</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonWebSocket.csproj">
       <Project>{60F7CC42-FE60-1F48-8BD2-AC75468BCCE3}</Project>
@@ -687,9 +719,25 @@
       <Project>{2EF16C86-1CB0-68AE-F825-564B7FBFD9B4}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
+    <ProjectReference Include="HalfFloatASMDEF.csproj">
+      <Project>{D6452C9C-DF6E-F6E3-9F60-200DC8D3E25D}</Project>
+      <Name>HalfFloatASMDEF</Name>
+    </ProjectReference>
+    <ProjectReference Include="BitpackersASMDEF.csproj">
+      <Project>{216D3002-81DF-CCF7-7C60-F413D9F16D8F}</Project>
+      <Name>BitpackersASMDEF</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonVoice.csproj">
+      <Project>{C2B21648-4D96-C343-460A-122010B1273E}</Project>
+      <Name>PhotonVoice</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonChat.csproj">
       <Project>{A0770C5D-20C2-9BF6-A069-021DE0B8E64E}</Project>
       <Name>PhotonChat</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonVoice.Utilities.Editor.csproj">
+      <Project>{6EAD469F-CEA3-DA59-335D-96DE7EB5DF5B}</Project>
+      <Name>PhotonVoice.Utilities.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
       <Project>{65F5019D-984C-3D29-3E48-11C318E5076E}</Project>
@@ -698,26 +746,6 @@
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
       <Project>{F32B3DE8-438B-31A2-21E2-B773D544E184}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonVoice.API.csproj">
-      <Project>{1CF9E16B-2C3B-B328-5398-43DF6535AF17}</Project>
-      <Name>PhotonVoice.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonVoice.Editor.csproj">
-      <Project>{A0883EE5-F854-112A-91B2-D831045DCBC7}</Project>
-      <Name>PhotonVoice.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonVoice.PUN.csproj">
-      <Project>{F2E094DC-52BE-0FE2-5764-C4D76D8DE9F1}</Project>
-      <Name>PhotonVoice.PUN</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonVoice.csproj">
-      <Project>{C2B21648-4D96-C343-460A-122010B1273E}</Project>
-      <Name>PhotonVoice</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonVoice.Utilities.Editor.csproj">
-      <Project>{6EAD469F-CEA3-DA59-335D-96DE7EB5DF5B}</Project>
-      <Name>PhotonVoice.Utilities.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonVoice.PUN.Editor.csproj">
       <Project>{832E9888-6E7A-2BB1-D119-33704FB1B362}</Project>

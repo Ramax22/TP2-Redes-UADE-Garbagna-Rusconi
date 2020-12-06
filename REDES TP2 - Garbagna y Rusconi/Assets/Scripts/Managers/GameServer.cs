@@ -287,11 +287,23 @@ public class GameServer : MonoBehaviourPun
 
     #region ~~~ MOVEMENT REQUEST ~~~
 
-    [PunRPC]
+    [PunRPC] //OLD
     public void RequestMovement(Player client, Vector3 mov)
     {
         if(_dic[client])
-        _dic[client].Move(mov);
+            _dic[client].Move(mov);
+    }
+    
+    [PunRPC]
+    void RequestInputPress(Player client, string input)
+    {
+        if (_dic[client]) _dic[client].AuthoritiveMovePress(input);
+    }
+
+    [PunRPC]
+    void RequestInputRelease(Player client, string input)
+    {
+        if (_dic[client]) _dic[client].AuthoritiveMoveRelease(input);
     }
 
     [PunRPC]
@@ -302,10 +314,10 @@ public class GameServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RequestAim(Player client, float vertical, float horizontal)
+    public void RequestAim(Player client, float rot)
     {
         if (_dic[client])
-            _dic[client].Aim(vertical, horizontal);
+            _dic[client].Aim(rot);
     }
 
     #endregion
