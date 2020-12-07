@@ -64,7 +64,7 @@ public class GameServer : MonoBehaviourPun
 
     //Disparo por parte del server
     [PunRPC]
-    void RpcShoot(int client, bool hasQuadDamage)
+    public void RpcShoot(int client, bool hasQuadDamage)
     {
         var whoShoot = PhotonView.Find(client); //Agarro el Player que disparó
         var sender = whoShoot.transform; //Agarro el transform del Player que disparo
@@ -84,7 +84,7 @@ public class GameServer : MonoBehaviourPun
                 if (hasQuadDamage) damage *= 4; //Si tiene quaddamage, se multiplica el daño por 4
 
                 //Le digo al jugador acertado que fue dañado
-                playerScript.CallChangeLife(damage, owner, whoShoot.Owner);
+                playerScript.ChangeLife(damage, whoShoot.Owner, owner);
             }
         }
     }
@@ -209,9 +209,10 @@ public class GameServer : MonoBehaviourPun
                 _dic[client] = playerS; //aca guarda al cliente y su script player de su gameobject
                 _dicInverse[playerS] = client; //aca lo mismo pero al revez
             }
-            playerS.photonView.RPC("SetSpawned", client);
-            playerS.photonView.RPC("ActivateCamera", client);
+            //playerS.photonView.RPC("SetSpawned", client);
+            //playerS.photonView.RPC("ActivateCamera", client);
             playerS.photonView.RPC("InitialConfig", client);
+            playerS.ControlledBy = client;
         }
     }
 
@@ -303,7 +304,7 @@ public class GameServer : MonoBehaviourPun
     public void RequestShoot(Player client)
     {
         if (_dic[client])
-            _dic[client].Shoot();
+            _dic[client].Shoot(client);
     }
 
     [PunRPC]

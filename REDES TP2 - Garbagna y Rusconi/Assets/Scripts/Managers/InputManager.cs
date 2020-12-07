@@ -55,7 +55,7 @@ public class InputManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
 
-            //if (Input.GetButtonDown("Fire")) RequestShoot();
+            if (Input.GetButtonDown("Fire1")) RequestShoot();
 
             ManageMovementInput();
             ManageCameraInput();
@@ -65,7 +65,7 @@ public class InputManager : MonoBehaviour
 
     void RequestShoot()
     {
-        //auxilio
+        GameServer.Instance.photonView.RPC("RequestShoot", GameServer.Instance.Server, PhotonNetwork.LocalPlayer);
     }
 
     void ManageCameraInput()
@@ -172,6 +172,7 @@ public class InputManager : MonoBehaviour
             yield return new WaitForSeconds(_timeToSendInfo);
         }
     }
+
     IEnumerator WaitToSyncRot()
     {
         while (true)

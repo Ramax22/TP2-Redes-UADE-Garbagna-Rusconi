@@ -43,7 +43,7 @@ public class PickUpScript : MonoBehaviourPunCallbacks
 
         if (player)
         {
-            if (type == 0) player.CallGetAmmo(photonId, 10); //AMMO
+            if (type == 0) player.GetAmmo(10); //AMMO
             else if (type == 1) player.CallGetHP(photonId); //LIFE
             else player.CallGetQuad(photonId); //QuadDamage
 

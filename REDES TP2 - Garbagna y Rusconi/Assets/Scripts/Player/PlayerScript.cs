@@ -15,7 +15,6 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] bool _quadDamage;
     [SerializeField] GameObject aimingPoint;
     
-    
     bool isDead;
     CharacterController cc;
     Vector3 mousePosition;
@@ -23,9 +22,10 @@ public class PlayerScript : MonoBehaviourPun
     Health hp;
     Player _lastHitBy;
     bool isMovingVertical, isMovingHorizonal;
-
+    Player _controlledBy;
 
     public CharacterController Cc { get => cc; set => cc = value; }
+    public Player ControlledBy { get => _controlledBy; set => _controlledBy = value; }
 
     // movement vars
     Dictionary<string, bool> _moveInstructions;
@@ -37,6 +37,8 @@ public class PlayerScript : MonoBehaviourPun
 
     private void Start()
     {
+        ammoCount = initialAmmo;
+
         //Esto es para que el input manager este como "mirando" hacia el mismo lugar, y no se rompa la rotación
         if (!PhotonNetwork.IsMasterClient) 
         { 
@@ -44,18 +46,11 @@ public class PlayerScript : MonoBehaviourPun
         }
 
         cc = GetComponent<CharacterController>();
-
         hp = new Health(initialhealth, Die);
-
         isDead = false;
 
         if (photonView.IsMine)
         {
-            //ammoCount = initialAmmo;
-            //HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
-            //HUDManager.Instance.ChangeAmmoText(ammoCount);
-            //HUDManager.Instance.ChangeKillsText(0);
-
             _moveInstructions = new Dictionary<string, bool>();
             _moveInstructions.Add(_moveForward, false);
             _moveInstructions.Add(_moveBackward, false);
@@ -73,15 +68,23 @@ public class PlayerScript : MonoBehaviourPun
 
     #region ~~~ HP FUNCTIONS ~~~
     [PunRPC]
-    public void ChangeLife(float value, Player whoShoot)
+    public void ChangeLife(float value, Player whoShoot, Player owner)
     {
         _lastHitBy = whoShoot;
         hp.ChangeLife(value);
-        
 
-        HUDManager.Instance.ChangeHPText((int)hp.HP);
+
+        photonView.RPC("UpdateHealth", owner, hp.HP);
+
+        //HUDManager.Instance.ChangeHPText((int)hp.HP);
 
         //if (photonView.IsMine) hpText.text = ("HP: " + hp.HP);
+    }
+
+    [PunRPC]
+    void UpdateHealth(float hp)
+    {
+        HUDManager.Instance.ChangeHPText((int)hp);
     }
 
     public void CallChangeLife(float value, Player owner, Player whoShoot)
@@ -118,41 +121,30 @@ public class PlayerScript : MonoBehaviourPun
     #endregion
 
     #region ~~~ WEAPONS FUNCTIONS ~~~
-    
-    public void Shoot()
+    public void Shoot(Player p)
     {
         if (ammoCount > 0)
         {
             ammoCount--;
-            HUDManager.Instance.ChangeAmmoText(ammoCount);
-            GameServer.Instance.Shoot(photonView.ViewID, _quadDamage);
+            photonView.RPC("UpdateAmmo", p, ammoCount);
+            GameServer.Instance.RpcShoot(photonView.ViewID, _quadDamage);
         }
     }
 
-    public void CallGetAmmo(Player owner, int value)
-    {
-        photonView.RPC("GetAmmo", owner, value);
-    }
-
     [PunRPC]
-    void GetAmmo(int value)
+    void UpdateAmmo(int ammo) { HUDManager.Instance.ChangeAmmoText(ammo); }
+
+    public void CallGetAmmo(Player owner, int value) { photonView.RPC("GetAmmo", owner, value); }
+
+    public void GetAmmo(int value)
     {
         ammoCount += value;
-        HUDManager.Instance.ChangeAmmoText(ammoCount);
-    }
-
-    public void AmmoChange()
-    {
-        ammoCount = initialAmmo;
+        photonView.RPC("UpdateAmmo", _controlledBy, ammoCount);
     }
     #endregion
 
     #region ~~~ QUAD DAMAGE FUNCTIONS ~~~
-
-    public void CallGetQuad(Player owner)
-    {
-        photonView.RPC("GetQuad", owner);
-    }
+    public void CallGetQuad(Player owner) { photonView.RPC("GetQuad", owner); }
 
     [PunRPC]
     public void GetQuad()
@@ -172,7 +164,6 @@ public class PlayerScript : MonoBehaviourPun
     #endregion
 
     #region ~~~ MOVEMENT FUNCTIONS ~~~
-
     // Funcion que actualiza el movimiento del jugador
     void MoveEntity()
     {
@@ -202,6 +193,7 @@ public class PlayerScript : MonoBehaviourPun
         if (input.Contains(_moveLeft)) _moveInstructions[_moveLeft] = true;
         if (input.Contains(_moveRight)) _moveInstructions[_moveRight] = true;
     }
+
     public void AuthoritiveMoveRelease(string input)
     {
         if (input.Contains(_moveForward)) _moveInstructions[_moveForward] = false;
@@ -209,11 +201,9 @@ public class PlayerScript : MonoBehaviourPun
         else if (input.Contains(_moveLeft)) _moveInstructions[_moveLeft] = false;
         else _moveInstructions[_moveRight] = false;
     }
-
     #endregion
 
     #region ~~~ CAMERA FUNCTIONS ~~~
-
     [PunRPC]
     public void ActivateCamera()
     {
@@ -227,7 +217,6 @@ public class PlayerScript : MonoBehaviourPun
 
         transform.localEulerAngles = newEulerRot;
     }
-
     #endregion
 
     #region ~~~ ETC FUNCTIONS ~~~
@@ -245,9 +234,9 @@ public class PlayerScript : MonoBehaviourPun
         _myCamera.SetActive(true);
 
         ammoCount = initialAmmo;
-        HUDManager.Instance.ChangeHPText(Mathf.RoundToInt(hp.HP));
+        HUDManager.Instance.ChangeHPText((int)hp.HP);
         HUDManager.Instance.ChangeAmmoText(ammoCount);
-        HUDManager.Instance.ChangeKillsText(0);
+        HUDManager.Instance.ChangeKillsText(10);
     }
     #endregion
 }

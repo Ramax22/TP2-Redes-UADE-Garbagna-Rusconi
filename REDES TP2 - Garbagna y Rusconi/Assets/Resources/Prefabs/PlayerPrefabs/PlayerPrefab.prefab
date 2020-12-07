@@ -331,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   initialhealth: 100
-  initialAmmo: 30
+  initialAmmo: 50
   _myCamera: {fileID: 5886326598151934621}
   _quadDamage: 0
   aimingPoint: {fileID: 0}
