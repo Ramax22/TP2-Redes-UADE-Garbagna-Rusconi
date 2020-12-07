@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - BulletBehaviour
     - ChatManager
     - Connection
     - ElevatorBehaviour
@@ -48,6 +49,8 @@ ScriptsOnlyBuild:
     - ScoreManager
     - SpawnsManager
     - SuperBasicController
+    - TurretBehaviour
+    - TurretManager
     - emotitron.TestPackObject
     PhotonUnityNetworking.Demos.dll:
     - Photon.Pun.Demo.Asteroids.Asteroid
@@ -60,6 +63,8 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
     PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PhotonTransformViewEditor
+    - Photon.Pun.PhotonViewInspector
     - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
@@ -181,6 +186,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12254}
     - Class: 114
       Script: {instanceID: 12592}
+    - Class: 114
+      Script: {instanceID: 22370}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -561,6 +568,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12688}
     - Class: 114
       Script: {instanceID: 13030}
+    - Class: 114
+      Script: {instanceID: 22330}
+    - Class: 114
+      Script: {instanceID: 37792}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -2444,6 +2455,24 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 8dd5639f6aa424294ae4beab292233b3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TurretBehaviour
+  - hash:
+      serializedVersion: 2
+      Hash: 75f9d5865ad0ae72fbabb4884e1674e4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TurretManager
+  - hash:
+      serializedVersion: 2
+      Hash: afc5b93a7b192de2dcb3832fe35a5c7e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BulletBehaviour
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
@@ -2451,5 +2480,5 @@ ScriptsOnlyBuild:
   - Assets/Scenes/GameScene.unity
   - Assets/Scenes/ResultScene.unity
   - Assets/Scenes/LoginScene.unity
-  playerPath: C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
+  playerPath: C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
     TP2 - Garbagna y Rusconi.exe

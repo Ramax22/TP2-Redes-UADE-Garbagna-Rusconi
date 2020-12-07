@@ -55,7 +55,7 @@ public class InputManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
 
-            if (Input.GetButtonDown("Fire")) RequestShoot();
+            //if (Input.GetButtonDown("Fire")) RequestShoot();
 
             ManageMovementInput();
             ManageCameraInput();
