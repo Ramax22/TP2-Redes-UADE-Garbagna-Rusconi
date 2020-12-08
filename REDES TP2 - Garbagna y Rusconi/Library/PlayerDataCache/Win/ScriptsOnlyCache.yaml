@@ -4,6 +4,8 @@ ScriptsOnlyBuild:
     - BulletBehaviour
     - ChatManager
     - Connection
+    - DoorBehaviour
+    - DoorManager
     - ElevatorBehaviour
     - ElevatorManager
     - GameServer
@@ -186,6 +188,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12258}
     - Class: 114
       Script: {instanceID: 12598}
+    - Class: 114
+      Script: {instanceID: 23170}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -570,6 +574,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12694}
     - Class: 114
       Script: {instanceID: 13040}
+    - Class: 114
+      Script: {instanceID: 23104}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -2471,6 +2477,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: cb3ee0fac767c71c07570c01aa15852c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DoorBehaviour
+  - hash:
+      serializedVersion: 2
+      Hash: a09e1207dfdda0582f38165c29a992d3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DoorManager
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
@@ -2478,5 +2496,5 @@ ScriptsOnlyBuild:
   - Assets/Scenes/GameScene.unity
   - Assets/Scenes/ResultScene.unity
   - Assets/Scenes/LoginScene.unity
-  playerPath: C:/Users/ramag/Documents/UADE/Redes/Final 2/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
+  playerPath: C:/Users/Rodrigo/Documents/TP2-Redes-UADE-Garbagna-Rusconi/BUILD/REDES
     TP2 - Garbagna y Rusconi.exe
