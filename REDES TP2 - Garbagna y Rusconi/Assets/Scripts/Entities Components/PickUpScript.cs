@@ -38,14 +38,13 @@ public class PickUpScript : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        var photonId = other.transform.GetComponent<PhotonView>().Owner;
         var player = other.transform.GetComponent<PlayerScript>();
 
         if (player)
         {
             if (type == 0) player.GetAmmo(10); //AMMO
-            else if (type == 1) player.CallGetHP(photonId); //LIFE
-            else player.CallGetQuad(photonId); //QuadDamage
+            else if (type == 1) player.GetHP(); //LIFE
+            else player.GetQuad(); //QuadDamage
 
             PhotonNetwork.Destroy(gameObject);
         }

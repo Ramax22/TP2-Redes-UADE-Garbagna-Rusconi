@@ -63,6 +63,11 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         _inputField.text = "";
     }
 
+    public void SendSpecialMsg(string msg)
+    {
+        _chatClient.PublishMessage(_channel, msg);
+    }
+
     IEnumerator WaitToScroll()
     {
         yield return new WaitForEndOfFrame();

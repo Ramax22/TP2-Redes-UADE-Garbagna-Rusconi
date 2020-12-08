@@ -14,6 +14,8 @@ public class PlayerScript : MonoBehaviourPun
     [SerializeField] GameObject _myCamera;
     [SerializeField] bool _quadDamage;
     [SerializeField] GameObject aimingPoint;
+    [SerializeField] GameObject model;
+    [SerializeField] ModelAnimation _modelAnim;
     
     bool isDead;
     CharacterController cc;
@@ -38,12 +40,6 @@ public class PlayerScript : MonoBehaviourPun
     private void Start()
     {
         ammoCount = initialAmmo;
-
-        //Esto es para que el input manager este como "mirando" hacia el mismo lugar, y no se rompa la rotación
-        if (!PhotonNetwork.IsMasterClient) 
-        { 
-            GameObject.Find("InputManager").transform.localEulerAngles = transform.localEulerAngles; 
-        }
 
         cc = GetComponent<CharacterController>();
         hp = new Health(initialhealth, Die);
@@ -73,10 +69,6 @@ public class PlayerScript : MonoBehaviourPun
         _lastHitBy = whoShoot;
         hp.ChangeLife(value);
         photonView.RPC("UpdateHealth", _controlledBy, hp.HP);
-
-        //HUDManager.Instance.ChangeHPText((int)hp.HP);
-
-        //if (photonView.IsMine) hpText.text = ("HP: " + hp.HP);
     }
 
     [PunRPC]
@@ -96,25 +88,19 @@ public class PlayerScript : MonoBehaviourPun
     public void GetHP()
     {
         hp.MaxLife();
-        HUDManager.Instance.ChangeHPText((int)hp.HP);
+        photonView.RPC("UpdateHealth", _controlledBy, hp.HP);
+        //HUDManager.Instance.ChangeHPText((int)hp.HP);
     }
 
     void Die() //Vamos a tener que encontrar una manera de hacer bien la muerte
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         isDead = true;
-        GameServer.Instance.RequestRespawn();
+        GameServer.Instance.RequestRespawn(_controlledBy);
 
-
-        //Esto lo tiene que hacer el server de alguna manera -- Ahora lo va a hacer papulandia
-        if(photonView.IsMine)
-        { 
-            HUDManager.Instance.ClearTexts();
-            Cursor.lockState = CursorLockMode.None;
-        }
-
-
-        GameServer.Instance.AddScore(_lastHitBy);
-        HUDManager.Instance.ClearTexts();
+        GameServer.Instance.RpcAddScore(_lastHitBy, _controlledBy);
+        //HUDManager.Instance.ClearTexts();
+        GameServer.Instance.ClearHUD(_controlledBy);
         PhotonNetwork.Destroy(gameObject);
     }
     #endregion
@@ -127,6 +113,7 @@ public class PlayerScript : MonoBehaviourPun
             ammoCount--;
             photonView.RPC("UpdateAmmo", p, ammoCount);
             GameServer.Instance.NewShoot(_quadDamage, aimingPoint.transform, p);
+            _modelAnim.SetFireBool();
         }
     }
 
@@ -145,12 +132,20 @@ public class PlayerScript : MonoBehaviourPun
     #region ~~~ QUAD DAMAGE FUNCTIONS ~~~
     public void CallGetQuad(Player owner) { photonView.RPC("GetQuad", owner); }
 
-    [PunRPC]
     public void GetQuad()
     {
         _quadDamage = true;
-        HUDManager.Instance.EnableQuad();
+        //HUDManager.Instance.EnableQuad();
+        photonView.RPC("UpdateQuadMsg", _controlledBy, true);
+
         StartCoroutine(QuadDamageDuration());
+    }
+
+    [PunRPC]
+    void UpdateQuadMsg(bool activate)
+    {
+        if (activate) HUDManager.Instance.EnableQuad();
+        else HUDManager.Instance.DisableQuad();
     }
 
     //Actica esto cuando agarre el quad damage
@@ -158,7 +153,7 @@ public class PlayerScript : MonoBehaviourPun
     {
         yield return new WaitForSeconds(10);
         _quadDamage = false;
-        HUDManager.Instance.DisableQuad();
+        photonView.RPC("UpdateQuadMsg", _controlledBy, false);
     }
     #endregion
 
@@ -183,6 +178,10 @@ public class PlayerScript : MonoBehaviourPun
         //Aplico el vector de movimiento
         var aux = moveVector.normalized * speed * Time.deltaTime;
         cc.Move(aux);
+
+        //Animacion
+        if (moveVector.z != 0 || moveVector.x != 0) _modelAnim.SetMovementBool();
+        else _modelAnim.SetMovementBoolFalse();
     }
 
     public void AuthoritiveMovePress(string input)
@@ -231,6 +230,10 @@ public class PlayerScript : MonoBehaviourPun
         PlayerManager.Instance.Spawned = true;
 
         _myCamera.SetActive(true);
+
+        model.SetActive(false);
+
+        GameObject.Find("InputManager").transform.localEulerAngles = transform.localEulerAngles;
 
         ammoCount = initialAmmo;
         HUDManager.Instance.ChangeHPText((int)initialhealth);

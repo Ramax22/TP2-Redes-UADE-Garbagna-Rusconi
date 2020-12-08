@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class HUDManager : MonoBehaviour
+public class HUDManager : MonoBehaviourPunCallbacks
 {
     public static HUDManager Instance;
     
@@ -45,10 +47,16 @@ public class HUDManager : MonoBehaviour
         quadText.text = "";
     }
 
+    [PunRPC]
     public void ClearTexts()
     {
         ammoText.text = "";
         hpText.text = "";
         quadText.text = "";
+    }
+
+    public void SendClearText(Player client)
+    {
+        photonView.RPC("ClearTexts", client);
     }
 }

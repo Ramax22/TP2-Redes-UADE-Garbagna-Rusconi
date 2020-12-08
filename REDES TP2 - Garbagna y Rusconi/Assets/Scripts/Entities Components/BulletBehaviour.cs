@@ -4,33 +4,41 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class BulletBehaviour : MonoBehaviour
+public class BulletBehaviour : MonoBehaviourPunCallbacks
 {
     [SerializeField] float speed;
+    bool destroyed;
 
     private void Awake()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine("WaitToDestroy");
-        }
+        if (photonView.IsMine) StartCoroutine("WaitToDestroy");
     }
     private void Update()
     {
-        if(PhotonNetwork.IsMasterClient)
-        transform.Translate(0, 0, speed * Time.deltaTime);
+        if (photonView.IsMine) transform.Translate(0, 0, speed * Time.deltaTime);
     }
 
     IEnumerator WaitToDestroy()
     {
         yield return new WaitForSeconds(3f);
-        PhotonNetwork.Destroy(gameObject);
+        if (!destroyed && photonView.IsMine) PhotonNetwork.Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(PhotonNetwork.IsMasterClient)
-        PhotonNetwork.Destroy(gameObject);
+        if (photonView.IsMine)
+        {
+
+            var player = other.transform.GetComponent<PlayerScript>();
+
+            if (player)
+            {
+                player.ChangeLife(5f, PhotonNetwork.LocalPlayer);
+            }
+
+            PhotonNetwork.Destroy(gameObject);
+            destroyed = true;
+        }
     }
 }
 

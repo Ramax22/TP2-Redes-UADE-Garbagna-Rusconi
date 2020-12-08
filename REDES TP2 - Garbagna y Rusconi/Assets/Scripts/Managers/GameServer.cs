@@ -25,6 +25,8 @@ public class GameServer : MonoBehaviourPun
     public List<Player> loggedPlayers;
     public List<string> _loggedUsernames;
 
+    ChatManager _chatManager;
+
     private void Awake()
     {
         _loggedUsernames = new List<string>();
@@ -39,6 +41,7 @@ public class GameServer : MonoBehaviourPun
             Instance = this;
             if (PhotonNetwork.IsMasterClient)
             {
+                PhotonNetwork.NickName = "Server";
                 loggedPlayers = new List<Player>();
                 _scoreDic = new Dictionary<Player, int>();
                 Player currentClient = PhotonNetwork.LocalPlayer;
@@ -61,33 +64,6 @@ public class GameServer : MonoBehaviourPun
     #region ~~~ ACTION SCRIPTS ~~~
     //Funcion que le avisa al server que un usuario disparo
     public void Shoot(int _view, bool hasQuadDamage) { photonView.RPC("RpcShoot", _server, _view, hasQuadDamage); }
-
-    //Disparo por parte del server
-   /* [PunRPC]
-    public void RpcShoot(int client, bool hasQuadDamage)
-    {
-        var whoShoot = PhotonView.Find(client); //Agarro el Player que disparó
-        var sender = whoShoot.transform; //Agarro el transform del Player que disparo
-
-        //Disparo un Raycast a ver si el usuario acertó algo
-        if (Physics.Raycast(sender.position, sender.forward, out RaycastHit hit, 60))
-        {
-            Debug.DrawLine(sender.position, hit.point, Color.green, 0.5f);
-
-            //intento agarrar el script, si tiene, significa que le acertó a un jugador
-            var playerScript = hit.collider.GetComponent<PlayerScript>();
-            if (playerScript != null)
-            {
-                //Agarro el Player del Owner
-                var owner = hit.collider.GetComponent<PhotonView>().Owner;
-                var damage = 5; //dejo el base damage
-                if (hasQuadDamage) damage *= 4; //Si tiene quaddamage, se multiplica el daño por 4
-
-                //Le digo al jugador acertado que fue dañado
-                playerScript.ChangeLife(damage, whoShoot.Owner, owner);
-            }
-        }
-    }*/
 
     public void NewShoot(bool hasQuadDamage, Transform shootingPoint, Player whoShoot)
     {
@@ -116,10 +92,28 @@ public class GameServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RpcAddScore(Player p)
+    public void RpcAddScore(Player p, Player killed)
     {
-        _scoreDic[p]++;
-        photonView.RPC("AddScoreLocal", p, _scoreDic[p]);
+        if (p != Server)
+        {
+            _scoreDic[p]++;
+            photonView.RPC("AddScoreLocal", p, _scoreDic[p]);
+        }
+
+        SendKillMsg(p, killed);
+    }
+
+    public void SendKillMsg(Player whoShoot, Player killed)
+    {
+        if (_chatManager == null) _chatManager = GameObject.Find("Chat").GetComponent<ChatManager>();
+
+        var shooted = "";
+        if (whoShoot == Server) shooted = "A turret";
+        else shooted = whoShoot.NickName;
+
+        string msg = shooted + " kill " + killed.NickName;
+
+        _chatManager.SendSpecialMsg(msg);
     }
 
     [PunRPC]
@@ -196,16 +190,16 @@ public class GameServer : MonoBehaviourPun
 
     #region ~~~ SPAWN PLAYERS ~~~
     //Solicita spawnear
-    public void SpawnRequest(Player p) { photonView.RPC("SpawnPlayer", _server, p); }
+    public void SpawnRequest(Player p) { photonView.RPC("SpawnPlayer", _server, p);}
 
     //Esto se llama cuando el jugador quiere respawnear despues de morir
-    public void RequestRespawn() { StartCoroutine(RespawnWait()); }
+    public void RequestRespawn(Player requestedBy) { StartCoroutine(RespawnWait(requestedBy)); }
 
     //Funcion que espera 3 segundos, y solicita respawnear al jugador
-    IEnumerator RespawnWait()
+    IEnumerator RespawnWait(Player requestedBy)
     {
         yield return new WaitForSeconds(3);
-        SpawnRequest(PhotonNetwork.LocalPlayer);
+        SpawnRequest(requestedBy);
     }
 
     //Funcion desde el server que spawnea un jugador y le pasa la propiedad al cliente
@@ -307,6 +301,17 @@ public class GameServer : MonoBehaviourPun
     void LoadResultScreen()
     {
         PhotonNetwork.LoadLevel("ResultScene");
+    }
+
+    public void ClearHUD(Player p)
+    {
+        photonView.RPC("RpcClearHUD", p);
+    }
+
+    [PunRPC]
+    void RpcClearHUD()
+    {
+        HUDManager.Instance.ClearTexts();
     }
     #endregion
 
