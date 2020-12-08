@@ -35,6 +35,8 @@ public class Connection : MonoBehaviourPunCallbacks
     {
         if (!response.Contains("Success"))
             _menuManager.EventTextRegisterScreen.text = "ERROR: " + response;
+        else
+            _menuManager.EventTextRegisterScreen.text = "SUCCESS, YOU CAN LOG IN NOW";
     }
     #endregion
 

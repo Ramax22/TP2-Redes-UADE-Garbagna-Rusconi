@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersNeeded: 1
   gameStart: 0
-  _matchMaxTime: 5000
+  _matchMaxTime: 60
   prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab
   _loggedUsernames: []
 --- !u!4 &298687762
