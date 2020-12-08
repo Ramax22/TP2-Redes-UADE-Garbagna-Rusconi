@@ -37,6 +37,7 @@ public class InputManager : MonoBehaviour
         else
             Cursor.lockState = CursorLockMode.Locked;
     }
+
     void Start()
     {
         if (PhotonNetwork.IsMasterClient) return;
@@ -63,10 +64,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void RequestShoot()
-    {
-        GameServer.Instance.photonView.RPC("RequestShoot", GameServer.Instance.Server, PhotonNetwork.LocalPlayer);
-    }
+    void RequestShoot() { GameServer.Instance.photonView.RPC("RequestShoot", GameServer.Instance.Server, PhotonNetwork.LocalPlayer); }
 
     void ManageCameraInput()
     {

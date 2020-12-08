@@ -68,13 +68,11 @@ public class PlayerScript : MonoBehaviourPun
 
     #region ~~~ HP FUNCTIONS ~~~
     [PunRPC]
-    public void ChangeLife(float value, Player whoShoot, Player owner)
+    public void ChangeLife(float value, Player whoShoot)
     {
         _lastHitBy = whoShoot;
         hp.ChangeLife(value);
-
-
-        photonView.RPC("UpdateHealth", owner, hp.HP);
+        photonView.RPC("UpdateHealth", _controlledBy, hp.HP);
 
         //HUDManager.Instance.ChangeHPText((int)hp.HP);
 
@@ -82,10 +80,7 @@ public class PlayerScript : MonoBehaviourPun
     }
 
     [PunRPC]
-    void UpdateHealth(float hp)
-    {
-        HUDManager.Instance.ChangeHPText((int)hp);
-    }
+    void UpdateHealth(float hp) { HUDManager.Instance.ChangeHPText((int)hp); }
 
     public void CallChangeLife(float value, Player owner, Player whoShoot)
     {
@@ -108,12 +103,16 @@ public class PlayerScript : MonoBehaviourPun
     {
         isDead = true;
         GameServer.Instance.RequestRespawn();
-        //Esto lo tiene que hacer el server de alguna manera
+
+
+        //Esto lo tiene que hacer el server de alguna manera -- Ahora lo va a hacer papulandia
         if(photonView.IsMine)
         { 
             HUDManager.Instance.ClearTexts();
             Cursor.lockState = CursorLockMode.None;
         }
+
+
         GameServer.Instance.AddScore(_lastHitBy);
         HUDManager.Instance.ClearTexts();
         PhotonNetwork.Destroy(gameObject);
@@ -127,7 +126,7 @@ public class PlayerScript : MonoBehaviourPun
         {
             ammoCount--;
             photonView.RPC("UpdateAmmo", p, ammoCount);
-            GameServer.Instance.RpcShoot(photonView.ViewID, _quadDamage);
+            GameServer.Instance.NewShoot(_quadDamage, aimingPoint.transform, p);
         }
     }
 
@@ -234,9 +233,9 @@ public class PlayerScript : MonoBehaviourPun
         _myCamera.SetActive(true);
 
         ammoCount = initialAmmo;
-        HUDManager.Instance.ChangeHPText((int)hp.HP);
+        HUDManager.Instance.ChangeHPText((int)initialhealth);
         HUDManager.Instance.ChangeAmmoText(ammoCount);
-        HUDManager.Instance.ChangeKillsText(10);
+        HUDManager.Instance.ChangeKillsText(0);
     }
     #endregion
 }

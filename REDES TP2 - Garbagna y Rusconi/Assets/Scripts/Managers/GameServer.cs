@@ -63,7 +63,7 @@ public class GameServer : MonoBehaviourPun
     public void Shoot(int _view, bool hasQuadDamage) { photonView.RPC("RpcShoot", _server, _view, hasQuadDamage); }
 
     //Disparo por parte del server
-    [PunRPC]
+   /* [PunRPC]
     public void RpcShoot(int client, bool hasQuadDamage)
     {
         var whoShoot = PhotonView.Find(client); //Agarro el Player que disparó
@@ -85,6 +85,25 @@ public class GameServer : MonoBehaviourPun
 
                 //Le digo al jugador acertado que fue dañado
                 playerScript.ChangeLife(damage, whoShoot.Owner, owner);
+            }
+        }
+    }*/
+
+    public void NewShoot(bool hasQuadDamage, Transform shootingPoint, Player whoShoot)
+    {
+        if (Physics.Raycast(shootingPoint.position, shootingPoint.forward, out RaycastHit hit, 60))
+        {
+            Debug.DrawLine(shootingPoint.position, hit.point, Color.green, 0.5f);
+
+            //intento agarrar el script, si tiene, significa que le acertó a un jugador
+            var playerScript = hit.collider.GetComponent<PlayerScript>();
+            if (playerScript != null)
+            {
+                var damage = 5; //dejo el base damage
+                if (hasQuadDamage) damage *= 4; //Si tiene quaddamage, se multiplica el daño por 4
+
+                //Le digo al jugador acertado que fue dañado
+                playerScript.ChangeLife(damage, whoShoot);
             }
         }
     }
@@ -195,22 +214,26 @@ public class GameServer : MonoBehaviourPun
     {
         if (client != _server)
         {
-            if (SpawnsManager.Instance.Counter >= SpawnsManager.Instance.SpawnPoints.Count)
-                SpawnsManager.Instance.Counter = 0;
+            // Resetea el counter
+            if (SpawnsManager.Instance.Counter >= SpawnsManager.Instance.SpawnPoints.Count) SpawnsManager.Instance.Counter = 0;
 
+            //Agarro el punto donde spawnear
             GameObject spawnPos = SpawnsManager.Instance.SpawnPoints[SpawnsManager.Instance.Counter];
             SpawnsManager.Instance.Counter++;
 
+            //Spawneo el objeto
             GameObject obj = PhotonNetwork.Instantiate(prefabAdress, spawnPos.transform.position, spawnPos.transform.rotation);
-            //obj.GetPhotonView().TransferOwnership(client);
+
+            // Agarro el PlayerScript
             PlayerScript playerS = obj.GetComponent<PlayerScript>();
+
+
             if (playerS)
             {
                 _dic[client] = playerS; //aca guarda al cliente y su script player de su gameobject
                 _dicInverse[playerS] = client; //aca lo mismo pero al revez
             }
-            //playerS.photonView.RPC("SetSpawned", client);
-            //playerS.photonView.RPC("ActivateCamera", client);
+
             playerS.photonView.RPC("InitialConfig", client);
             playerS.ControlledBy = client;
         }
@@ -301,18 +324,10 @@ public class GameServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RequestShoot(Player client)
-    {
-        if (_dic[client])
-            _dic[client].Shoot(client);
-    }
+    public void RequestShoot(Player client) { if (_dic[client])  _dic[client].Shoot(client); }
 
     [PunRPC]
-    public void RequestAim(Player client, float rot)
-    {
-        if (_dic[client])
-            _dic[client].Aim(rot);
-    }
+    public void RequestAim(Player client, float rot) { if (_dic[client])  _dic[client].Aim(rot); }
 
     #endregion
 
