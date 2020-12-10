@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db31fbf0a27c3ac46bdd40cf63d20cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playersNeeded: 1
+  playersNeeded: 4
   gameStart: 0
   _matchMaxTime: 60
   prefabAdress: Prefabs/PlayerPrefabs/PlayerPrefab

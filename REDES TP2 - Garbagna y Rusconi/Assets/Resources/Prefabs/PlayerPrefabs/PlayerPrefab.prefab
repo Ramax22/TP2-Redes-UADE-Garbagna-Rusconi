@@ -569,6 +569,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5880785673523557514}
     m_Modifications:
+    - target: {fileID: 1330895423159032654, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
+        type: 3}
+      propertyPath: m_Name
+      value: ToonSoldier_demo Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330895423159032654, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1330895423158732590, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -638,16 +648,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1330895423159032654, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
-        type: 3}
-      propertyPath: m_Name
-      value: ToonSoldier_demo Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 1330895423159032654, guid: e7986b7f4b72e0e4b9246cbd8b740fc2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7986b7f4b72e0e4b9246cbd8b740fc2, type: 3}
